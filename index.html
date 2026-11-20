@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>소아 하지부동(LLD) 성장 계산기</title>
 
-  <!-- PWA 메타 태그 -->
+  <!-- PWA & iOS 메타 태그 -->
   <meta name="description" content="소아 정형외과 하지부동(LLD) Multiplier, White-Menelaus, Moseley 직선 그래프, 다회계측 회귀분석 및 골단유합술 시기 계산기" />
   <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="LLD 계산기" />
+  <meta name="format-detection" content="telephone=no" />
   <link rel="manifest" href="./manifest.json" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
 
   <style>
@@ -57,20 +59,27 @@
       color: var(--text);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
       padding-bottom: env(safe-area-inset-bottom, 24px);
     }
 
     button, input, select { touch-action: manipulation; }
+
+    /* Unified Sticky Top Shell (Prevents iOS Safari bounce gap) */
+    .top-sticky-shell {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: var(--navy);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.14);
+    }
 
     /* Header */
     .app-header {
       background: var(--navy);
       color: #fff;
       padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px;
-      position: sticky;
-      top: 0;
-      z-index: 60;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
     }
     .header-inner {
       max-width: 1200px;
@@ -147,13 +156,10 @@
       display: none;
     }
 
-    /* Nav Tabs */
+    /* Nav Tabs (inside unified sticky shell) */
     .nav-wrap {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 58px;
-      z-index: 50;
     }
     .nav-tabs {
       max-width: 1200px;
@@ -290,6 +296,7 @@
       align-items: center;
       padding: 4px 0;
       user-select: none;
+      -webkit-user-select: none;
     }
     details.opt-details summary::-webkit-details-marker { display: none; }
     details.opt-details summary::after {
@@ -357,8 +364,16 @@
       background: var(--surface);
       outline: none;
       transition: border-color 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
     }
-    select { padding-right: 10px; }
+    select {
+      padding-right: 28px;
+      background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
+      background-position: calc(100% - 14px) 50%, calc(100% - 9px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
     .input-unit input:focus, select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
@@ -386,6 +401,7 @@
       color: var(--text-muted);
       cursor: pointer;
       user-select: none;
+      -webkit-user-select: none;
     }
     .toggle-label input {
       accent-color: var(--primary);
@@ -481,6 +497,7 @@
     .table-wrap {
       width: 100%;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       border: 1px solid var(--border);
       border-radius: 10px;
     }
@@ -619,6 +636,8 @@
       font-size: 13.5px;
       font-weight: 600;
       background: #fff;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     /* Mobile Sticky Bottom Result Bar (Hidden on PC) */
@@ -641,7 +660,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.58);
       display: none;
       align-items: center;
       justify-content: center;
@@ -652,16 +671,36 @@
     .modal {
       background: #fff;
       border-radius: 14px;
-      max-width: 580px;
+      max-width: 560px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding: 20px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
     }
     .modal h3 { font-size: 16px; margin-bottom: 10px; }
-    .modal p, .modal li { font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-    .modal ul { padding-left: 18px; margin-bottom: 12px; }
+    .modal p, .modal li { font-size: 13px; color: var(--text-muted); margin-bottom: 7px; line-height: 1.55; }
+    .modal ul, .modal ol { padding-left: 19px; margin-bottom: 12px; }
+
+    .ios-step-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .ios-step-box ol { margin-bottom: 0; }
+    .ios-step-box li strong { color: var(--navy); }
+    .share-badge {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #0f172a;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
 
     /* Toast */
     .toast {
@@ -706,16 +745,15 @@
       }
       .header-inner {
         flex-wrap: nowrap;
-        gap: 8px;
+        gap: 6px;
       }
-      .brand-icon { width: 30px; height: 30px; font-size: 11.5px; }
-      .brand h1 { font-size: 15px; }
+      .brand-icon { width: 28px; height: 28px; font-size: 11px; }
+      .brand h1 { font-size: 14.5px; }
       .brand-sub { display: none; }
       .header-actions { gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
-      .hdr-btn { padding: 6px 9px; font-size: 11.5px; }
+      .hdr-btn { padding: 6px 8px; font-size: 11px; }
 
       /* Equal 3-column mobile tab bar */
-      .nav-wrap { top: calc(50px + env(safe-area-inset-top, 0px)); }
       .nav-tabs { padding: 0; gap: 0; }
       .tab-btn {
         flex: 1;
@@ -737,7 +775,7 @@
       .card-header { margin-bottom: 11px; gap: 8px; }
       .card-title { font-size: 14.5px; }
 
-      /* Better Android touch targets & prevent font zoom */
+      /* Prevent iOS Safari input auto-zoom (16px minimum) & large touch targets */
       .input-unit input, select {
         font-size: 16px;
         padding: 10px 32px 10px 10px;
@@ -789,12 +827,8 @@
         overflow: visible;
         border-radius: 0;
       }
-      .table-wrap.mobile-cards table {
-        min-width: 0;
-      }
-      .table-wrap.mobile-cards thead {
-        display: none;
-      }
+      .table-wrap.mobile-cards table { min-width: 0; }
+      .table-wrap.mobile-cards thead { display: none; }
       .table-wrap.mobile-cards tbody,
       .table-wrap.mobile-cards tr,
       .table-wrap.mobile-cards td {
@@ -855,11 +889,11 @@
         font-size: 13px;
       }
 
-      /* Mobile Regression Card Inputs */
+      /* Mobile Regression Card Inputs (16px to avoid iOS zoom) */
       .reg-input {
         width: 100%;
-        max-width: 110px;
-        font-size: 15px;
+        max-width: 112px;
+        font-size: 16px;
         padding: 7px 8px;
         text-align: right;
       }
@@ -872,6 +906,7 @@
         right: 0;
         bottom: 0;
         background: rgba(15, 23, 42, 0.96);
+        -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
         color: #fff;
         padding: 9px 12px calc(9px + env(safe-area-inset-bottom, 0px));
@@ -880,8 +915,12 @@
         gap: 10px;
         z-index: 90;
         box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.22);
+        transition: transform 0.18s ease, opacity 0.18s ease;
       }
-      .mobile-sticky-bar.hide-bar { display: none; }
+      .mobile-sticky-bar.hide-bar,
+      .mobile-sticky-bar.kb-hidden {
+        display: none;
+      }
       .msb-metrics {
         display: flex;
         gap: 12px;
@@ -917,31 +956,35 @@
   </style>
 </head>
 <body>
-  <header class="app-header">
-    <div class="header-inner">
-      <div class="brand">
-        <div class="brand-icon">LLD</div>
-        <div style="min-width:0;">
-          <h1>소아 하지부동 계산기</h1>
-          <div class="brand-sub">Multiplier · White-Menelaus · Moseley · 다회계측 회귀분석</div>
+  <!-- Unified Sticky Top Shell (Header + Nav Tabs) -->
+  <div class="top-sticky-shell" id="topStickyShell">
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-icon">LLD</div>
+          <div style="min-width:0;">
+            <h1>소아 하지부동 계산기</h1>
+            <div class="brand-sub">Multiplier · White-Menelaus · Moseley · 다회계측 회귀분석</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <span class="const-badge">대퇴 원위 9 mm/yr · 경골 근위 6 mm/yr · 성숙기 남16 / 여14세</span>
+          <button class="hdr-btn install-btn" id="btnInstall">앱 설치</button>
+          <button class="hdr-btn install-btn" id="btnIosInstall">iPhone 설치</button>
+          <button class="hdr-btn" id="btnReset">초기화</button>
+          <button class="hdr-btn" id="btnInfo">공식</button>
         </div>
       </div>
-      <div class="header-actions">
-        <span class="const-badge">대퇴 원위 9 mm/yr · 경골 근위 6 mm/yr · 성숙기 남16 / 여14세</span>
-        <button class="hdr-btn install-btn" id="btnInstall">앱 설치</button>
-        <button class="hdr-btn" id="btnReset">초기화</button>
-        <button class="hdr-btn" id="btnInfo">공식</button>
-      </div>
-    </div>
-  </header>
+    </header>
 
-  <nav class="nav-wrap">
-    <div class="nav-tabs" role="tablist">
-      <button class="tab-btn active" data-tab="basic">기본 계산기</button>
-      <button class="tab-btn" data-tab="moseley">Moseley 그래프</button>
-      <button class="tab-btn" data-tab="regression">다회계측 회귀</button>
-    </div>
-  </nav>
+    <nav class="nav-wrap">
+      <div class="nav-tabs" role="tablist">
+        <button class="tab-btn active" data-tab="basic">기본 계산기</button>
+        <button class="tab-btn" data-tab="moseley">Moseley 그래프</button>
+        <button class="tab-btn" data-tab="regression">다회계측 회귀</button>
+      </div>
+    </nav>
+  </div>
 
   <div class="mobile-const-strip">대퇴 원위 9 mm/yr · 경골 근위 6 mm/yr · 성숙기 남16 / 여14세</div>
 
@@ -1032,7 +1075,7 @@
               </div>
             </div>
 
-            <!-- Optional Foot Height (Collapsible for clean mobile view) -->
+            <!-- Optional Foot Height -->
             <div class="form-section">
               <details class="opt-details" id="footDetails">
                 <summary>발 높이 입력 (Foot Height, 선택)</summary>
@@ -1110,7 +1153,6 @@
 
           <!-- 2x2 KPI Cards -->
           <div class="kpi-grid highlight-preds" id="kpiGrid">
-            <!-- Top Row (Neutral) -->
             <div class="kpi-card">
               <div class="kpi-label">
                 <span>현재 하지부동</span>
@@ -1129,7 +1171,6 @@
               <div class="kpi-sub" id="kpiGirSub">M = 1.170 · 잔여성장 12.6 cm</div>
             </div>
 
-            <!-- Bottom Row (Emphasized) -->
             <div class="kpi-card pred-card pred-multiplier">
               <div class="kpi-label">
                 <span>Multiplier 최종 예측</span>
@@ -1162,7 +1203,7 @@
             </div>
           </div>
 
-          <!-- Surgical Timing Simulator (Table on PC, Cards on Mobile) -->
+          <!-- Surgical Timing Simulator -->
           <div class="card">
             <div class="card-header">
               <div>
@@ -1226,7 +1267,7 @@
             <div class="card-sub">건측(45°) 대비 환측 성장선, 유합술 기울기(37% / 28% / 65%) 및 연장술 시뮬레이션</div>
           </div>
           <div class="btn-row" style="width:auto;">
-            <select id="moseleySite" style="width:auto; padding:8px 10px; font-size:13px; min-height:38px;">
+            <select id="moseleySite" style="width:auto; padding:8px 30px 8px 10px; font-size:13px; min-height:38px;">
               <option value="both">동시 유합술 (65% 억제)</option>
               <option value="femur">대퇴 원위부 단독 (37% 억제)</option>
               <option value="tibia">경골 근위부 단독 (28% 억제)</option>
@@ -1349,6 +1390,31 @@
       </ul>
       <p style="font-size:12px; color:#b45309; background:#fffbeb; padding:10px; border-radius:8px; border:1px solid #fde68a;">
         <strong>임상 검증 권고:</strong> 실제 진료 적용 전 내장된 Multiplier 승수표(0.5세 간격)가 원저 문헌 수치와 일치하는지 교차 검증 후 사용하시기 바랍니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- iOS Home Screen Install Guide Modal -->
+  <div class="modal-backdrop" id="iosInstallModal">
+    <div class="modal">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3>아이폰(iOS) 앱 설치 방법</h3>
+        <button class="btn btn-sm" id="btnCloseIosModal">닫기</button>
+      </div>
+      <div class="alert alert-amber hidden" id="iosInAppWarn" style="margin-top:0; margin-bottom:12px;">
+        <strong>현재 인앱 브라우저(카카오톡·네이버 등)로 열려 있습니다.</strong><br />
+        인앱 브라우저에서는 앱 설치 메뉴가 보이지 않으므로, 먼저 화면 우측 하단(또는 우측 상단 ⋮)의 <strong>'Safari로 열기'</strong>를 눌러 주세요.
+      </div>
+      <div class="ios-step-box">
+        <ol>
+          <li>아이폰 기본 브라우저인 <strong>Safari</strong>에서 이 페이지를 엽니다.</li>
+          <li>화면 하단 중앙의 <strong>공유 버튼 <span class="share-badge">□↑</span></strong>을 탭합니다.</li>
+          <li>메뉴를 아래로 내려 <strong>'홈 화면에 추가'</strong>를 선택합니다.</li>
+          <li>우측 상단의 <strong>'추가'</strong>를 누르면 홈 화면에 앱 아이콘이 생성됩니다.</li>
+        </ol>
+      </div>
+      <p style="font-size:12px; color:#64748b; margin-bottom:0;">
+        설치 후 홈 화면 아이콘으로 실행하면 브라우저 주소창 없이 전체 화면 앱으로 동작하며 오프라인에서도 사용할 수 있습니다.
       </p>
     </div>
   </div>
@@ -1595,40 +1661,33 @@
       $('prevWarn').textContent = c.prevWarnMsg;
       $('prevWarn').style.color = c.prevWarnMsg ? '#dc2626' : '#64748b';
 
-      // KPI 1
       $('kpiCurrTag').textContent = c.footDiff > 0 ? '발높이 포함' : 'Scanogram';
       $('kpiCurrVal').textContent = `${fmt(c.currLLD)} cm`;
       $('kpiCurrSub').textContent =
         `대퇴 ${fmt(Math.max(0, c.femNorm - c.femShort))} · 경골 ${fmt(Math.max(0, c.tibNorm - c.tibShort))}` +
         (c.footDiff > 0 ? ` · 발 ${fmt(c.footDiff)} cm` : ' cm');
 
-      // KPI 2
       $('kpiGirTag').textContent = c.etiology === 'congenital' ? '선천성 비례' : '2회 계측';
       $('kpiGirVal').textContent = `${fmt(c.I * 100, 1)}%`;
       $('kpiGirSub').textContent =
         `M=${fmt(c.M, 3)} · 잔여 ${fmt(c.remGrowth)} cm · GIR ${fmt(c.girCmYr, 2)}`;
 
-      // KPI 3
       $('kpiMultVal').textContent = `${fmt(c.multPred)} cm`;
       $('kpiMultSub').textContent = `성숙 건측 ${fmt(c.Lm)} cm (M=${fmt(c.M, 3)})`;
       $('kpiMultBadge').textContent =
         c.multPred < 1.5 ? '경과 관찰' : c.multPred < 2.0 ? '경계 범위' : c.multPred < 5.0 ? '유합술 고려' : '연장술 고려';
 
-      // KPI 4
       $('kpiWmVal').textContent = `${fmt(c.wmPred)} cm`;
       $('kpiWmBadge').textContent = `잔여 ${fmt(c.wmRemYears)}년`;
       $('kpiWmSub').textContent =
         `GIR ${fmt(Math.max(0, c.girCmYr), 2)} cm/yr × ${fmt(c.wmRemYears)}년`;
 
-      // Mobile Sticky Bar update
       $('msbMult').textContent = `${fmt(c.multPred)} cm`;
       $('msbWm').textContent = `${fmt(c.wmPred)} cm`;
 
-      // Slider
       $('targetResidualVal').textContent = `${fmt(c.targetResidual)} cm`;
       $('simCorrBadge').textContent = `교정 목표: ${fmt(c.corrNeeded)} cm`;
 
-      // Epiphysiodesis Table (with data-label for mobile cards)
       const tbody = $('epiTableBody');
       tbody.innerHTML = c.epiResults.map((r) => {
         const meStr = r.multFeasible && r.mE ? fmt(r.mE, 3) : '초과';
@@ -1652,7 +1711,6 @@
         `;
       }).join('');
 
-      // Concise EMR Summary Table (2 items only)
       const bestPlan = choosePrimaryPlan(c);
       $('emrTableBody').innerHTML = `
         <tr>
@@ -1703,7 +1761,7 @@
     }
 
     // =========================================================================
-    // 5. Responsive Pure Canvas Charts (PC + Mobile Optimized)
+    // 5. Responsive Pure Canvas Charts (Zero CDN Dependency)
     // =========================================================================
     function setupCanvas(canvas, cssHeight) {
       const dpr = window.devicePixelRatio || 1;
@@ -1751,11 +1809,9 @@
       const plotH = h - pad.t - pad.b;
       const xOf = (v) => pad.l + (v / maxVal) * plotW;
 
-      // Safe zone (0 ~ 1.5 cm)
       ctx.fillStyle = 'rgba(16, 185, 129, 0.10)';
       ctx.fillRect(pad.l, pad.t, xOf(1.5) - pad.l, plotH);
 
-      // Grid lines
       ctx.strokeStyle = '#e2e8f0';
       ctx.lineWidth = 1;
       ctx.font = '11px -apple-system, sans-serif';
@@ -1772,7 +1828,6 @@
         ctx.fillText(v + 'cm', x, h - 8);
       }
 
-      // 1.5 cm threshold
       const x15 = xOf(1.5);
       ctx.save();
       ctx.setLineDash([4, 4]);
@@ -1790,7 +1845,6 @@
 
       const rowH = plotH / items.length;
       if (isNarrow) {
-        // Mobile: Label & value on top, full-width bar underneath
         items.forEach((it, idx) => {
           const topY = pad.t + rowH * idx + 6;
           const bw = Math.max(3, xOf(it.val) - pad.l);
@@ -1812,7 +1866,6 @@
           drawRoundedBar(ctx, pad.l, topY + 18, bw, 18, 5);
         });
       } else {
-        // Desktop: Side-by-side labels and bars
         const barH = Math.min(26, rowH * 0.56);
         items.forEach((it, idx) => {
           const cy = pad.t + rowH * idx + rowH / 2;
@@ -1876,7 +1929,6 @@
         }
       }
 
-      // HTML Legend (wraps cleanly on mobile)
       const legItems = [
         { c: '#0f172a', t: '건측 성장선 (45°)' },
         { c: '#0d9488', t: '환측 성장선' },
@@ -1919,7 +1971,6 @@
       const xOf = (v) => pad.l + ((v - minVal) / (maxVal - minVal)) * plotW;
       const yOf = (v) => pad.t + plotH - ((v - minVal) / (maxVal - minVal)) * plotH;
 
-      // Grid
       ctx.strokeStyle = '#e2e8f0';
       ctx.lineWidth = 1;
       ctx.font = '10.5px -apple-system, sans-serif';
@@ -1936,7 +1987,6 @@
         ctx.fillText(v, pad.l - 6, y + 4);
       }
 
-      // Axis labels
       ctx.fillStyle = '#334155';
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.textAlign = 'center';
@@ -1949,7 +1999,6 @@
         ctx.restore();
       }
 
-      // Maturity vertical line
       const xMat = xOf(d.Lm);
       ctx.save();
       ctx.setLineDash([5, 4]);
@@ -1965,7 +2014,6 @@
       ctx.textAlign = 'right';
       ctx.fillText(`성숙선 ${fmt(d.Lm)}`, Math.min(xMat + 10, pad.l + plotW), pad.t - 7);
 
-      // Normal leg 45-degree line
       ctx.strokeStyle = '#0f172a';
       ctx.lineWidth = 2.2;
       ctx.beginPath();
@@ -1973,7 +2021,6 @@
       ctx.lineTo(xOf(d.Lm), yOf(d.Lm));
       ctx.stroke();
 
-      // Short leg line
       const S_start = d.Scurr - d.shortSlope * (d.Lcurr - minVal);
       ctx.save();
       if (d.lengthen > 0) ctx.setLineDash([4, 4]);
@@ -1985,7 +2032,6 @@
       ctx.stroke();
       ctx.restore();
 
-      // Lengthening
       if (d.lengthen > 0) {
         ctx.strokeStyle = '#d97706';
         ctx.lineWidth = 2.8;
@@ -1996,7 +2042,6 @@
         ctx.stroke();
       }
 
-      // Epiphysiodesis line
       if (d.Lop !== null && d.Lop >= minVal && d.Lop < d.Lm) {
         ctx.strokeStyle = '#dc2626';
         ctx.lineWidth = 2.4;
@@ -2015,7 +2060,6 @@
         ctx.fillText(`L_op=${fmt(d.Lop)}`, tx, yOf(d.Lop) - 7);
       }
 
-      // Current dots
       ctx.fillStyle = '#0f172a';
       ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Lcurr), 4.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#0d9488';
@@ -2193,7 +2237,7 @@
     }
 
     // =========================================================================
-    // 8. Event Listeners & Mobile Jump Interaction
+    // 8. Event Listeners & iOS/Mobile Interactions
     // =========================================================================
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -2204,19 +2248,20 @@
         $('tab-' + state.activeTab).classList.add('active');
         $('mobileStickyBar').classList.toggle('hide-bar', state.activeTab !== 'basic');
 
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        // iOS Safari compatible instant scroll reset
+        window.scrollTo(0, 0);
         if (state.activeTab === 'moseley') renderMoseleyUI();
         if (state.activeTab === 'regression') computeRegression();
         if (state.activeTab === 'basic') drawCompChart(state.lastCalc);
       });
     });
 
-    // Mobile sticky jump button (toggle between Result and Input)
+    // Dynamic offset scroll jump on mobile
     let showingResult = false;
     $('btnMobileJump').addEventListener('click', () => {
       const target = showingResult ? $('inputSection') : $('resultSection');
-      const offset = 104;
-      const y = target.getBoundingClientRect().top + window.scrollY - offset;
+      const headerHeight = ($('topStickyShell') ? $('topStickyShell').offsetHeight : 100) + 10;
+      const y = target.getBoundingClientRect().top + window.scrollY - headerHeight;
       window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     });
 
@@ -2226,6 +2271,35 @@
       showingResult = resTop < window.innerHeight * 0.45;
       $('btnMobileJump').textContent = showingResult ? '입력 수정 ↑' : '결과 보기 ↓';
     }, { passive: true });
+
+    // Hide bottom sticky bar while soft keyboard is open (iOS & Android clean UX)
+    let kbBlurTimer = null;
+    function isTextEntryElement(el) {
+      if (!el) return false;
+      const tag = el.tagName;
+      if (tag === 'SELECT' || tag === 'TEXTAREA') return true;
+      if (tag === 'INPUT') {
+        const type = (el.type || '').toLowerCase();
+        return type !== 'checkbox' && type !== 'radio' && type !== 'range' && type !== 'button';
+      }
+      return false;
+    }
+
+    document.addEventListener('focusin', (e) => {
+      if (window.innerWidth <= 768 && isTextEntryElement(e.target)) {
+        clearTimeout(kbBlurTimer);
+        $('mobileStickyBar').classList.add('kb-hidden');
+      }
+    });
+
+    document.addEventListener('focusout', () => {
+      clearTimeout(kbBlurTimer);
+      kbBlurTimer = setTimeout(() => {
+        if (!isTextEntryElement(document.activeElement)) {
+          $('mobileStickyBar').classList.remove('kb-hidden');
+        }
+      }, 150);
+    });
 
     // Segmented controls
     $('sexControl').querySelectorAll('.seg-btn').forEach((btn) => {
@@ -2383,20 +2457,33 @@
         fallbackCopy(text, msg);
       }
     }
+
     function fallbackCopy(text, msg) {
       const ta = document.createElement('textarea');
       ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      ta.style.left = '-9999px';
       document.body.appendChild(ta);
       ta.select();
+      ta.setSelectionRange(0, text.length);
       document.execCommand('copy');
       document.body.removeChild(ta);
       showToast(msg);
     }
 
+    // Modals
     $('btnInfo').addEventListener('click', () => $('infoModal').classList.add('open'));
     $('btnCloseModal').addEventListener('click', () => $('infoModal').classList.remove('open'));
     $('infoModal').addEventListener('click', (e) => {
       if (e.target === $('infoModal')) $('infoModal').classList.remove('open');
+    });
+
+    $('btnIosInstall').addEventListener('click', () => $('iosInstallModal').classList.add('open'));
+    $('btnCloseIosModal').addEventListener('click', () => $('iosInstallModal').classList.remove('open'));
+    $('iosInstallModal').addEventListener('click', (e) => {
+      if (e.target === $('iosInstallModal')) $('iosInstallModal').classList.remove('open');
     });
 
     window.addEventListener('resize', () => {
@@ -2408,7 +2495,7 @@
     });
 
     // =========================================================================
-    // 9. PWA Service Worker & Install Prompt Registration
+    // 9. PWA Service Worker, Android Install Prompt & iOS Install Detection
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -2432,6 +2519,21 @@
       deferredPrompt = null;
       $('btnInstall').style.display = 'none';
     });
+
+    // Detect iOS browser (not yet installed to Home Screen) & In-App Browsers
+    (function setupIosInstallGuide() {
+      const ua = navigator.userAgent || '';
+      const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+      const isInApp = /KAKAOTALK|NAVER|Instagram|FBAN|FBAV|Line/i.test(ua);
+
+      if (isIOS && !isStandalone) {
+        $('btnIosInstall').style.display = 'inline-block';
+        if (isInApp) {
+          $('iosInAppWarn').classList.remove('hidden');
+        }
+      }
+    })();
 
     computeAll();
     renderRegTable();
