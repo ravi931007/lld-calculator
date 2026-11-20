@@ -6,7 +6,7 @@
   <title>소아 하지부동(LLD) 성장 계산기</title>
 
   <!-- PWA & iOS 메타 태그 -->
-  <meta name="description" content="소아 정형외과 하지부동(LLD) Multiplier, White-Menelaus, Moseley 직선 그래프, 다회계측 회귀분석 및 골단유합술 시기 계산기" />
+  <meta name="description" content="소아 정형외과 하지부동(LLD) Multiplier, White-Menelaus, Moseley 직선 그래프, 다회계측 회귀분석, 2017 질병관리청 신장 백분위수 및 Reference 도구" />
   <meta name="theme-color" content="#0f172a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -156,7 +156,7 @@
       display: none;
     }
 
-    /* Nav Tabs (inside unified sticky shell) */
+    /* Nav Tabs (5 tabs) */
     .nav-wrap {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -166,14 +166,14 @@
       margin: 0 auto;
       padding: 0 20px;
       display: flex;
-      gap: 6px;
+      gap: 4px;
     }
     .tab-btn {
       background: none;
       border: none;
       border-bottom: 3px solid transparent;
-      padding: 13px 16px;
-      font-size: 14px;
+      padding: 13px 14px;
+      font-size: 13.5px;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
@@ -185,6 +185,7 @@
       color: var(--primary-dark);
       border-bottom-color: var(--primary);
     }
+    .tab-short { display: none; }
 
     /* Mobile-only constant strip */
     .mobile-const-strip {
@@ -284,7 +285,6 @@
       align-items: center;
     }
 
-    /* Collapsible Optional Foot Height */
     details.opt-details summary {
       list-style: none;
       cursor: pointer;
@@ -465,16 +465,72 @@
     .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-label {
       color: rgba(255, 255, 255, 0.92);
     }
-    .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-val {
-      color: #ffffff;
-    }
-    .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-sub {
-      color: rgba(255, 255, 255, 0.86);
-    }
+    .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-val { color: #ffffff; }
+    .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-sub { color: rgba(255, 255, 255, 0.86); }
     .kpi-grid.highlight-preds .kpi-card.pred-card .pill {
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
       border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Height Percentile Hero Card */
+    .pct-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .pct-hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .pct-big {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: #2dd4bf;
+    }
+    .pct-z {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-top: 4px;
+    }
+    .pct-gauge-wrap {
+      margin-top: 8px;
+    }
+    .pct-gauge-track {
+      position: relative;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ef4444 0%, #f59e0b 10%, #10b981 25%, #14b8a6 50%, #10b981 75%, #3b82f6 90%, #6366f1 100%);
+      margin-bottom: 6px;
+    }
+    .pct-gauge-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3.5px solid #0f172a;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+      transition: left 0.2s ease;
+    }
+    .pct-gauge-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #94a3b8;
+      font-variant-numeric: tabular-nums;
     }
 
     /* Pills / Badges */
@@ -493,7 +549,7 @@
     .pill-red { background: var(--red-light); color: var(--red); border-color: #fecaca; }
     .pill-blue { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
 
-    /* Tables (Desktop Default) */
+    /* Tables */
     .table-wrap {
       width: 100%;
       overflow-x: auto;
@@ -521,6 +577,74 @@
     }
     tr:last-child td { border-bottom: none; }
     .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    /* Reference Multiplier Table */
+    .ref-table { min-width: 100%; }
+    .ref-table th, .ref-table td {
+      text-align: center;
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+    .ref-table tr.active-age-row {
+      background: #ccfbf1;
+      font-weight: 800;
+    }
+    .ref-table tr.active-age-row td {
+      color: #0f766e;
+    }
+
+    /* Reference Literature List */
+    .ref-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ref-item {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+    .ref-item strong { color: var(--text); }
+    .ref-link {
+      display: inline-block;
+      margin-top: 5px;
+      margin-right: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--blue);
+      text-decoration: none;
+      background: var(--blue-light);
+      padding: 3px 9px;
+      border-radius: 6px;
+      border: 1px solid #bfdbfe;
+    }
+    .ref-link:hover { background: #dbeafe; }
+
+    /* Percentile Mini Grid */
+    .pct-ref-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .pct-ref-cell {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+    .pct-ref-cell.mid {
+      background: var(--primary-light);
+      border-color: #99f6e4;
+    }
+    .pct-ref-p { font-size: 11px; font-weight: 700; color: var(--text-light); }
+    .pct-ref-v { font-size: 13px; font-weight: 800; color: var(--text); margin-top: 2px; font-variant-numeric: tabular-nums; }
 
     /* Slider Box */
     .slider-row {
@@ -587,10 +711,7 @@
       border-radius: 10px;
       padding: 8px;
     }
-    canvas {
-      width: 100%;
-      display: block;
-    }
+    canvas { width: 100%; display: block; }
     .chart-legend {
       display: flex;
       flex-wrap: wrap;
@@ -621,6 +742,7 @@
       border: 1px solid;
     }
     .alert-amber { background: var(--amber-light); border-color: #fde68a; color: #92400e; }
+    .alert-blue { background: var(--blue-light); border-color: #bfdbfe; color: #1e40af; }
     .alert-green { background: var(--green-light); border-color: #a7f3d0; color: #065f46; }
 
     /* EMR Compact Table */
@@ -641,9 +763,7 @@
     }
 
     /* Mobile Sticky Bottom Result Bar (Hidden on PC) */
-    .mobile-sticky-bar {
-      display: none;
-    }
+    .mobile-sticky-bar { display: none; }
 
     /* Footer Disclaimer */
     .footer-note {
@@ -739,29 +859,27 @@
         padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
       }
 
-      /* Compact single-row mobile header */
       .app-header {
         padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 10px;
       }
-      .header-inner {
-        flex-wrap: nowrap;
-        gap: 6px;
-      }
+      .header-inner { flex-wrap: nowrap; gap: 6px; }
       .brand-icon { width: 28px; height: 28px; font-size: 11px; }
       .brand h1 { font-size: 14.5px; }
       .brand-sub { display: none; }
       .header-actions { gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
       .hdr-btn { padding: 6px 8px; font-size: 11px; }
 
-      /* Equal 3-column mobile tab bar */
+      /* Clean 5-column mobile tab bar (no horizontal scroll needed) */
       .nav-tabs { padding: 0; gap: 0; }
       .tab-btn {
         flex: 1;
         text-align: center;
-        padding: 11px 4px;
-        font-size: 12.5px;
-        letter-spacing: -0.3px;
+        padding: 10px 2px;
+        font-size: 11.5px;
+        letter-spacing: -0.4px;
       }
+      .tab-full { display: none; }
+      .tab-short { display: inline; }
 
       .container {
         margin: 12px auto 16px;
@@ -775,7 +893,6 @@
       .card-header { margin-bottom: 11px; gap: 8px; }
       .card-title { font-size: 14.5px; }
 
-      /* Prevent iOS Safari input auto-zoom (16px minimum) & large touch targets */
       .input-unit input, select {
         font-size: 16px;
         padding: 10px 32px 10px 10px;
@@ -794,7 +911,6 @@
       }
       .btn { min-height: 38px; }
 
-      /* Keep 2x2 KPI layout crisp on mobile phones */
       .kpi-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
@@ -821,7 +937,11 @@
       }
       .pill { font-size: 10px; padding: 2px 6px; }
 
-      /* Convert Desktop Tables into Zero-Scroll Mobile Cards */
+      .pct-ref-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      /* Mobile Card Tables */
       .table-wrap.mobile-cards {
         border: none;
         overflow: visible;
@@ -871,7 +991,6 @@
       }
       .table-wrap.mobile-cards td.card-row-head::before { display: none; }
 
-      /* Mobile EMR stacked table */
       .emr-table, .emr-table tbody, .emr-table tr, .emr-table th, .emr-table td {
         display: block;
         width: 100%;
@@ -889,7 +1008,6 @@
         font-size: 13px;
       }
 
-      /* Mobile Regression Card Inputs (16px to avoid iOS zoom) */
       .reg-input {
         width: 100%;
         max-width: 112px;
@@ -915,23 +1033,13 @@
         gap: 10px;
         z-index: 90;
         box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.22);
-        transition: transform 0.18s ease, opacity 0.18s ease;
       }
       .mobile-sticky-bar.hide-bar,
       .mobile-sticky-bar.kb-hidden {
         display: none;
       }
-      .msb-metrics {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        min-width: 0;
-      }
-      .msb-item {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.2;
-      }
+      .msb-metrics { display: flex; gap: 12px; align-items: center; min-width: 0; }
+      .msb-item { display: flex; flex-direction: column; line-height: 1.2; }
       .msb-lbl { font-size: 10px; color: #94a3b8; font-weight: 600; }
       .msb-num { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
       .msb-num.teal { color: #2dd4bf; }
@@ -956,7 +1064,7 @@
   </style>
 </head>
 <body>
-  <!-- Unified Sticky Top Shell (Header + Nav Tabs) -->
+  <!-- Unified Sticky Top Shell -->
   <div class="top-sticky-shell" id="topStickyShell">
     <header class="app-header">
       <div class="header-inner">
@@ -964,7 +1072,7 @@
           <div class="brand-icon">LLD</div>
           <div style="min-width:0;">
             <h1>소아 하지부동 계산기</h1>
-            <div class="brand-sub">Multiplier · White-Menelaus · Moseley · 다회계측 회귀분석</div>
+            <div class="brand-sub">Multiplier · White-Menelaus · Moseley · 회귀분석 · KDCA 신장 백분위</div>
           </div>
         </div>
         <div class="header-actions">
@@ -972,16 +1080,27 @@
           <button class="hdr-btn install-btn" id="btnInstall">앱 설치</button>
           <button class="hdr-btn install-btn" id="btnIosInstall">iPhone 설치</button>
           <button class="hdr-btn" id="btnReset">초기화</button>
-          <button class="hdr-btn" id="btnInfo">공식</button>
         </div>
       </div>
     </header>
 
     <nav class="nav-wrap">
       <div class="nav-tabs" role="tablist">
-        <button class="tab-btn active" data-tab="basic">기본 계산기</button>
-        <button class="tab-btn" data-tab="moseley">Moseley 그래프</button>
-        <button class="tab-btn" data-tab="regression">다회계측 회귀</button>
+        <button class="tab-btn active" data-tab="basic">
+          <span class="tab-full">기본 계산기</span><span class="tab-short">기본계산</span>
+        </button>
+        <button class="tab-btn" data-tab="moseley">
+          <span class="tab-full">Moseley 그래프</span><span class="tab-short">Moseley</span>
+        </button>
+        <button class="tab-btn" data-tab="regression">
+          <span class="tab-full">다회계측 회귀</span><span class="tab-short">회귀분석</span>
+        </button>
+        <button class="tab-btn" data-tab="height">
+          <span class="tab-full">신장 백분위 (KDCA)</span><span class="tab-short">신장 %ile</span>
+        </button>
+        <button class="tab-btn" data-tab="reference">
+          <span class="tab-full">Reference</span><span class="tab-short">Ref 표</span>
+        </button>
       </div>
     </nav>
   </div>
@@ -1005,7 +1124,6 @@
               <button class="chip-btn" id="preset2">예제2: 8.5세 여(후천)</button>
             </div>
 
-            <!-- Basic Info -->
             <div class="form-section">
               <div class="section-label"><span>성별 및 병인</span></div>
               <div class="seg-control" id="sexControl">
@@ -1018,7 +1136,6 @@
               </div>
             </div>
 
-            <!-- Age -->
             <div class="form-section">
               <div class="section-label"><span>연령 정보</span></div>
               <div class="input-grid-2">
@@ -1040,7 +1157,6 @@
               <div class="hint" id="ageHint">Multiplier는 역연령, White-Menelaus는 골연령 우선 적용</div>
             </div>
 
-            <!-- Current Scanogram -->
             <div class="form-section">
               <div class="section-label"><span>현재 계측치 (Scanogram)</span></div>
               <div class="input-grid-2">
@@ -1075,7 +1191,6 @@
               </div>
             </div>
 
-            <!-- Optional Foot Height -->
             <div class="form-section">
               <details class="opt-details" id="footDetails">
                 <summary>발 높이 입력 (Foot Height, 선택)</summary>
@@ -1100,11 +1215,8 @@
               </details>
             </div>
 
-            <!-- Previous Visit (Acquired only) -->
             <div class="form-section hidden" id="prevSection">
-              <div class="section-label">
-                <span>이전 계측치 (최소 3개월 이상 간격)</span>
-              </div>
+              <div class="section-label"><span>이전 계측치 (최소 3개월 이상 간격)</span></div>
               <div class="input-grid-2">
                 <div class="field">
                   <label for="prevInterval">경과 기간</label>
@@ -1142,7 +1254,6 @@
 
         <!-- Right Result Panel -->
         <div id="resultSection">
-          <!-- KPI Header Control -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
             <span style="font-size:12.5px; font-weight:700; color:var(--text-muted);" id="patientMeta">남아 · 역연령 12.0세 · 선천성</span>
             <label class="toggle-label">
@@ -1151,7 +1262,6 @@
             </label>
           </div>
 
-          <!-- 2x2 KPI Cards -->
           <div class="kpi-grid highlight-preds" id="kpiGrid">
             <div class="kpi-card">
               <div class="kpi-label">
@@ -1168,7 +1278,7 @@
                 <span class="pill pill-neutral" id="kpiGirTag">선천성 비례</span>
               </div>
               <div class="kpi-val" id="kpiGirVal">3.5%</div>
-              <div class="kpi-sub" id="kpiGirSub">M = 1.170 · 잔여성장 12.6 cm</div>
+              <div class="kpi-sub" id="kpiGirSub">M = 1.180 · 잔여성장 13.3 cm</div>
             </div>
 
             <div class="kpi-card pred-card pred-multiplier">
@@ -1176,8 +1286,8 @@
                 <span>Multiplier 최종 예측</span>
                 <span class="pill" id="kpiMultBadge">유합술 고려</span>
               </div>
-              <div class="kpi-val" id="kpiMultVal">3.0 cm</div>
-              <div class="kpi-sub" id="kpiMultSub">성숙 건측 86.6 cm (M=1.170)</div>
+              <div class="kpi-val" id="kpiMultVal">3.1 cm</div>
+              <div class="kpi-sub" id="kpiMultSub">성숙 건측 87.3 cm (M=1.180)</div>
             </div>
 
             <div class="kpi-card pred-card pred-wm">
@@ -1190,7 +1300,6 @@
             </div>
           </div>
 
-          <!-- Visual Comparison Chart -->
           <div class="card">
             <div class="card-header">
               <div>
@@ -1203,14 +1312,13 @@
             </div>
           </div>
 
-          <!-- Surgical Timing Simulator -->
           <div class="card">
             <div class="card-header">
               <div>
                 <div class="card-title">골단유합술 시기 시뮬레이터</div>
-                <div class="card-sub">목표 잔여 부동량 기준 분절별 최적 수술 연령</div>
+                <div class="card-sub">목표 잔여 부동량 기준 분절별 최적 수술 연령 (Paley 2000 원저 표 적용)</div>
               </div>
-              <span class="pill pill-blue" id="simCorrBadge">교정 목표: 3.0 cm</span>
+              <span class="pill pill-blue" id="simCorrBadge">교정 목표: 3.1 cm</span>
             </div>
 
             <div class="slider-row">
@@ -1236,7 +1344,6 @@
             </div>
           </div>
 
-          <!-- Concise EMR Charting Summary Table (2 items only) -->
           <div class="card">
             <div class="card-header">
               <div>
@@ -1353,6 +1460,200 @@
         </div>
       </div>
     </section>
+
+    <!-- ==================== TAB 4: 2017 질병관리청 신장 백분위수 ==================== -->
+    <section class="tab-panel" id="tab-height">
+      <div class="main-grid">
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">신장 백분위수 입력</div>
+                <div class="card-sub">2017 질병관리청 성장도표 (0개월 ~ 18세 11개월)</div>
+              </div>
+              <button class="chip-btn" id="btnSyncFromBasic" style="flex:0 0 auto;">기본계산기 연동</button>
+            </div>
+
+            <div class="form-section">
+              <div class="section-label"><span>성별</span></div>
+              <div class="seg-control" id="htSexControl">
+                <button class="seg-btn active" data-val="M">남아 (Boys)</button>
+                <button class="seg-btn" data-val="F">여아 (Girls)</button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-label"><span>만 나이 (0세 0개월 ~ 18세 11개월)</span></div>
+              <div class="input-grid-2">
+                <div class="field">
+                  <label for="htYears">만 나이 (세)</label>
+                  <div class="input-unit">
+                    <input type="number" inputmode="numeric" id="htYears" step="1" min="0" max="18" value="12" />
+                    <span class="unit-tag">세</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="htMonths">추가 개월</label>
+                  <div class="input-unit">
+                    <input type="number" inputmode="numeric" id="htMonths" step="1" min="0" max="11" value="0" />
+                    <span class="unit-tag">개월</span>
+                  </div>
+                </div>
+              </div>
+              <div class="hint" id="htAgeNote">만 12세 0개월 (144개월) · 선키(Standing height) 기준</div>
+            </div>
+
+            <div class="form-section">
+              <div class="section-label"><span>현재 신장</span></div>
+              <div class="field">
+                <label for="htCm">신장 입력</label>
+                <div class="input-unit">
+                  <input type="number" inputmode="decimal" id="htCm" step="0.1" min="35" max="220" value="151.4" />
+                  <span class="unit-tag">cm</span>
+                </div>
+              </div>
+              <div class="hint">LMS(Box-Cox) 공식으로 정확한 연속 백분위수 및 Z-score 산출</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- Hero Result Box -->
+          <div class="pct-hero">
+            <div class="pct-hero-top">
+              <div>
+                <div style="font-size:12px; color:#94a3b8; font-weight:600; margin-bottom:4px;" id="htSummaryMeta">남아 · 만 12세 0개월 (144개월) · 151.4 cm</div>
+                <div class="pct-big" id="htPctVal">50.0%ile</div>
+                <div class="pct-z" id="htZVal">표준점수 (Z-score / SDS): 0.00 SD</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+                <span class="pill pill-green" id="htStatusPill">정상 범위 (10~90%ile)</span>
+                <button class="hdr-btn" id="btnCopyHeight" style="font-size:11.5px;">EMR 복사</button>
+              </div>
+            </div>
+
+            <div class="pct-gauge-wrap">
+              <div class="pct-gauge-track">
+                <div class="pct-gauge-marker" id="htGaugeMarker" style="left:50%;"></div>
+              </div>
+              <div class="pct-gauge-ticks">
+                <span>1%</span><span>3%</span><span>10%</span><span>25%</span><span>50%</span><span>75%</span><span>90%</span><span>97%</span><span>99%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary KPIs -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label"><span>해당 월령 중앙값 (50th)</span><span class="pill pill-neutral">기준치</span></div>
+              <div class="kpi-val" id="htMedianVal">151.4 cm</div>
+              <div class="kpi-sub" id="htDiffMedian">중앙값 대비 0.0 cm</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label"><span>동일 백분위 유지 시 18세 11개월</span><span class="pill pill-blue">참고치</span></div>
+              <div class="kpi-val" id="htAdultVal">174.5 cm</div>
+              <div class="kpi-sub" id="htAdultSub">현재 Z-score 유지 가정 (227개월 기준)</div>
+            </div>
+          </div>
+
+          <!-- Reference Table for Selected Month -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">해당 월령 신장 백분위수 기준 (cm)</div>
+                <div class="card-sub" id="htRefGridSub">2017 질병관리청 성장도표 LMS 산출값</div>
+              </div>
+            </div>
+            <div class="pct-ref-grid" id="htRefGrid"></div>
+          </div>
+
+          <!-- Growth Curve Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">연령별 신장 성장곡선 (2017 KDCA)</div>
+                <div class="card-sub">3rd · 10th · 25th · 50th(굵은선) · 75th · 90th · 97th 곡선 및 현재 환자 위치</div>
+              </div>
+            </div>
+            <div class="canvas-box">
+              <canvas id="heightCurveChart" height="300"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: Reference ==================== -->
+    <section class="tab-panel" id="tab-reference">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Lower-Limb Multiplier Reference Table (Paley et al., 2000)</div>
+            <div class="card-sub">원저 수치표 (0~3세 3개월 간격, 3~17세 6개월 간격 · 현재 입력 연령 구간 음영 표시)</div>
+          </div>
+          <span class="pill pill-blue" id="refCurrentAgePill">현재 입력: 12.0세</span>
+        </div>
+
+        <div class="table-wrap" style="max-height: 460px; overflow-y: auto;">
+          <table class="ref-table">
+            <thead style="position: sticky; top: 0; z-index: 2;">
+              <tr>
+                <th>Age (yrs. + mos.)</th>
+                <th>Boys (Multiplier)</th>
+                <th>Girls* (Multiplier)</th>
+              </tr>
+            </thead>
+            <tbody id="refTableBody"></tbody>
+          </table>
+        </div>
+        <div class="hint" style="margin-top:8px;">*NA = not applicable (여아 만 14세 이후 성숙 도달). 표 사이의 연령은 선형 보간(Linear interpolation)으로 산출합니다.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">주요 공식 상수 및 참고 문헌 (Verified References)</div>
+            <div class="card-sub">본 계산기에 적용된 공식 근거 및 PubMed / PMC 원문 링크</div>
+          </div>
+        </div>
+
+        <div class="alert alert-blue" style="margin-top:0; margin-bottom:12px;">
+          <strong>적용 상수 요약:</strong>
+          Multiplier 대퇴 원위부 기여도 71% / 경골 근위부 기여도 57% ·
+          White-Menelaus 대퇴 원위부 9 mm/yr / 경골 근위부 6 mm/yr (성숙 남아 16세, 여아 14세) ·
+          Moseley 기준 기울기 대퇴 원위부 37% / 경골 근위부 28% / 동시 유합 65%
+        </div>
+
+        <ul class="ref-list">
+          <li class="ref-item">
+            <strong>1. Paley Multiplier Method (하지부동 승수표 원저)</strong><br />
+            Paley D, Bhave A, Herzenberg JE, Bowen JR. Multiplier method for predicting limb-length discrepancy. <i>J Bone Joint Surg Am.</i> 2000 Oct;82(10):1432-1446. doi: 10.2106/00004623-200010000-00010.<br />
+            <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/11057472/" target="_blank" rel="noopener noreferrer">PubMed (PMID: 11057472) ↗</a>
+          </li>
+          <li class="ref-item">
+            <strong>2. White-Menelaus Rule of Thumb (산술적 경험 법칙)</strong><br />
+            Menelaus MB. Correction of leg length discrepancy by epiphysial arrest. <i>J Bone Joint Surg Br.</i> 1966 May;48(2):336-339.<br />
+            <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/5937598/" target="_blank" rel="noopener noreferrer">PubMed (PMID: 5937598) ↗</a>
+          </li>
+          <li class="ref-item">
+            <strong>3. Moseley Straight-Line Graph (직선 그래프법)</strong><br />
+            Moseley CF. A straight-line graph for leg-length discrepancies. <i>J Bone Joint Surg Am.</i> 1977 Mar;59(2):174-179.<br />
+            <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/845200/" target="_blank" rel="noopener noreferrer">PubMed (PMID: 845200) ↗</a>
+          </li>
+          <li class="ref-item">
+            <strong>4. Green-Anderson Growth Remaining Method (잔여 성장 기초 데이터)</strong><br />
+            Anderson M, Green WT, Messner MB. Growth and predictions of growth in the lower extremities. <i>J Bone Joint Surg Am.</i> 1963 Jan;45:1-14.<br />
+            <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/14040773/" target="_blank" rel="noopener noreferrer">PubMed (PMID: 14040773) ↗</a>
+          </li>
+          <li class="ref-item">
+            <strong>5. 2017 소아청소년 성장도표 (질병관리청 · 대한소아과학회)</strong><br />
+            Kim JH, Yun S, Hwang SS, et al. The 2017 Korean National Growth Charts for children and adolescents: development, improvement, and prospects. <i>Korean J Pediatr.</i> 2018 May;61(5):135-149. doi: 10.3345/kjp.2018.61.5.135.<br />
+            <a class="ref-link" href="https://pubmed.ncbi.nlm.nih.gov/29853938/" target="_blank" rel="noopener noreferrer">PubMed (PMID: 29853938) ↗</a>
+            <a class="ref-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5976563/" target="_blank" rel="noopener noreferrer">PMC 전문 보기 ↗</a>
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <footer class="footer-note">
@@ -1360,12 +1661,12 @@
     입력된 수치는 서버나 브라우저 저장소에 기록되지 않으며, 새로고침 또는 초기화 시 즉시 삭제됩니다.
   </footer>
 
-  <!-- Mobile Sticky Live Summary Bar -->
+  <!-- Mobile Sticky Live Summary Bar (Basic Calculator Only) -->
   <div class="mobile-sticky-bar" id="mobileStickyBar">
     <div class="msb-metrics">
       <div class="msb-item">
         <span class="msb-lbl">Multiplier</span>
-        <span class="msb-num teal" id="msbMult">3.0 cm</span>
+        <span class="msb-num teal" id="msbMult">3.1 cm</span>
       </div>
       <div class="msb-item">
         <span class="msb-lbl">White-Menelaus</span>
@@ -1373,25 +1674,6 @@
       </div>
     </div>
     <button class="msb-jump" id="btnMobileJump">결과 보기 ↓</button>
-  </div>
-
-  <!-- Info & Disclaimer Modal -->
-  <div class="modal-backdrop" id="infoModal">
-    <div class="modal">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h3>적용 공식 및 이용 안내</h3>
-        <button class="btn btn-sm" id="btnCloseModal">닫기</button>
-      </div>
-      <ul>
-        <li><strong>Multiplier 공식:</strong> 성숙 길이 <i>L<sub>m</sub> = L × M</i>, 선천성 <i>Δ<sub>m</sub> = Δ × M</i>, 후천성 <i>Δ<sub>m</sub> = Δ + I · L(M − 1)</i>. 대퇴 원위부 기여도 71%, 경골 근위부 기여도 57%로 목표 승수 <i>M<sub>E</sub></i> 역보간.</li>
-        <li><strong>White-Menelaus 상수:</strong> 대퇴 원위부 9 mm/yr, 경골 근위부 6 mm/yr, 동시 유합 15 mm/yr. 성장 완료 연령 남아 16세, 여아 14세 기준.</li>
-        <li><strong>Moseley 기준 기울기:</strong> 대퇴 원위부 37%, 경골 근위부 28%, 슬관절 주변 동시 유합 65% 억제 반영.</li>
-        <li><strong>데이터 보안:</strong> 모든 연산은 기기 내 메모리에서만 실행되며 외부 서버 전송이나 로컬 저장을 수행하지 않습니다.</li>
-      </ul>
-      <p style="font-size:12px; color:#b45309; background:#fffbeb; padding:10px; border-radius:8px; border:1px solid #fde68a;">
-        <strong>임상 검증 권고:</strong> 실제 진료 적용 전 내장된 Multiplier 승수표(0.5세 간격)가 원저 문헌 수치와 일치하는지 교차 검증 후 사용하시기 바랍니다.
-      </p>
-    </div>
   </div>
 
   <!-- iOS Home Screen Install Guide Modal -->
@@ -1403,7 +1685,7 @@
       </div>
       <div class="alert alert-amber hidden" id="iosInAppWarn" style="margin-top:0; margin-bottom:12px;">
         <strong>현재 인앱 브라우저(카카오톡·네이버 등)로 열려 있습니다.</strong><br />
-        인앱 브라우저에서는 앱 설치 메뉴가 보이지 않으므로, 먼저 화면 우측 하단(또는 우측 상단 ⋮)의 <strong>'Safari로 열기'</strong>를 눌러 주세요.
+        먼저 화면 우측 하단(또는 우측 상단 ⋮)의 <strong>'Safari로 열기'</strong>를 눌러 Safari로 이동해 주세요.
       </div>
       <div class="ios-step-box">
         <ol>
@@ -1423,26 +1705,20 @@
 
   <script>
     // =========================================================================
-    // 1. Reference Multiplier Tables (0.5-year intervals, linear interpolation)
+    // 1. Exact Paley et al. (JBJS Am 2000;82:1432-46) Lower-Limb Multiplier Table
+    //    Format: [label, ageYears, boyMultiplier, girlMultiplierOrNull]
     // =========================================================================
-    const MULTIPLIER_BOYS = [
-      [0.0, 5.080], [0.5, 4.100], [1.0, 3.240], [1.5, 2.750], [2.0, 2.450],
-      [2.5, 2.250], [3.0, 2.130], [3.5, 2.010], [4.0, 1.910], [4.5, 1.830],
-      [5.0, 1.760], [5.5, 1.690], [6.0, 1.635], [6.5, 1.580], [7.0, 1.530],
-      [7.5, 1.485], [8.0, 1.440], [8.5, 1.400], [9.0, 1.360], [9.5, 1.325],
-      [10.0, 1.290], [10.5, 1.260], [11.0, 1.230], [11.5, 1.200], [12.0, 1.170],
-      [12.5, 1.140], [13.0, 1.110], [13.5, 1.080], [14.0, 1.050], [14.5, 1.030],
-      [15.0, 1.015], [15.5, 1.007], [16.0, 1.003], [16.5, 1.001], [17.0, 1.000]
-    ];
+    const PALEY_REF_TABLE = [["Birth",0.0,5.08,4.63],["0 + 3",0.25,4.55,4.155],["0 + 6",0.5,4.05,3.725],["0 + 9",0.75,3.6,3.3],["1 + 0",1.0,3.24,2.97],["1 + 3",1.25,2.975,2.75],["1 + 6",1.5,2.825,2.6],["1 + 9",1.75,2.7,2.49],["2 + 0",2.0,2.59,2.39],["2 + 3",2.25,2.48,2.295],["2 + 6",2.5,2.385,2.2],["2 + 9",2.75,2.3,2.125],["3 + 0",3.0,2.23,2.05],["3 + 6",3.5,2.11,1.925],["4 + 0",4.0,2.0,1.83],["4 + 6",4.5,1.89,1.74],["5 + 0",5.0,1.82,1.66],["5 + 6",5.5,1.74,1.58],["6 + 0",6.0,1.67,1.51],["6 + 6",6.5,1.62,1.46],["7 + 0",7.0,1.57,1.43],["7 + 6",7.5,1.52,1.37],["8 + 0",8.0,1.47,1.33],["8 + 6",8.5,1.42,1.29],["9 + 0",9.0,1.38,1.26],["9 + 6",9.5,1.34,1.22],["10 + 0",10.0,1.31,1.19],["10 + 6",10.5,1.28,1.16],["11 + 0",11.0,1.24,1.13],["11 + 6",11.5,1.22,1.1],["12 + 0",12.0,1.18,1.07],["12 + 6",12.5,1.16,1.05],["13 + 0",13.0,1.13,1.03],["13 + 6",13.5,1.1,1.01],["14 + 0",14.0,1.08,1.0],["14 + 6",14.5,1.06,null],["15 + 0",15.0,1.04,null],["15 + 6",15.5,1.02,null],["16 + 0",16.0,1.01,null],["16 + 6",16.5,1.01,null],["17 + 0",17.0,1.0,null]];
 
-    const MULTIPLIER_GIRLS = [
-      [0.0, 4.630], [0.5, 3.740], [1.0, 3.000], [1.5, 2.570], [2.0, 2.290],
-      [2.5, 2.110], [3.0, 1.980], [3.5, 1.870], [4.0, 1.780], [4.5, 1.700],
-      [5.0, 1.630], [5.5, 1.570], [6.0, 1.510], [6.5, 1.460], [7.0, 1.410],
-      [7.5, 1.365], [8.0, 1.320], [8.5, 1.280], [9.0, 1.240], [9.5, 1.200],
-      [10.0, 1.160], [10.5, 1.125], [11.0, 1.095], [11.5, 1.068], [12.0, 1.045],
-      [12.5, 1.025], [13.0, 1.012], [13.5, 1.005], [14.0, 1.000]
-    ];
+    const MULTIPLIER_BOYS = PALEY_REF_TABLE.map(r => [r[1], r[2]]);
+    const MULTIPLIER_GIRLS = PALEY_REF_TABLE.filter(r => r[3] !== null).map(r => [r[1], r[3]]);
+
+    // =========================================================================
+    // 2. Exact 2017 KDCA Korean National Growth Charts Height LMS Dataset
+    //    Indexed by age in months: 0 .. 227 (0y0m .. 18y11m), each entry [L, M, S]
+    // =========================================================================
+    const KDCA_HEIGHT_BOYS = [[1.0,49.8842,0.038],[1.0,54.7244,0.0356],[1.0,58.4249,0.0342],[1.0,61.4292,0.0333],[1.0,63.886,0.0326],[1.0,65.9026,0.032],[1.0,67.6236,0.0317],[1.0,69.1645,0.0314],[1.0,70.5994,0.0312],[1.0,71.9687,0.0312],[1.0,73.2812,0.0312],[1.0,74.5388,0.0313],[1.0,75.7488,0.0314],[1.0,76.9186,0.0315],[1.0,78.0497,0.0317],[1.0,79.1458,0.032],[1.0,80.2113,0.0322],[1.0,81.2487,0.0325],[1.0,82.2587,0.0328],[1.0,83.2418,0.0331],[1.0,84.1996,0.0334],[1.0,85.1348,0.0338],[1.0,86.0477,0.0341],[1.0,86.941,0.0345],[1.0,87.1161,0.0351],[1.0,87.972,0.0354],[1.0,88.8065,0.0358],[1.0,89.6197,0.0361],[1.0,90.412,0.0364],[1.0,91.1828,0.0367],[1.0,91.9327,0.037],[1.0,92.6631,0.0373],[1.0,93.3753,0.0376],[1.0,94.0711,0.0379],[1.0,94.7532,0.0381],[1.0,95.4236,0.0384],[-1.0915,96.4961,0.0403],[-1.0011,97.0464,0.0403],[-0.9126,97.5965,0.0402],[-0.8262,98.1463,0.0402],[-0.7418,98.6959,0.0402],[-0.6592,99.2452,0.0402],[-0.5827,99.793,0.0401],[-0.5077,100.3406,0.0401],[-0.4343,100.8881,0.0401],[-0.3625,101.4353,0.0401],[-0.2921,101.9824,0.0401],[-0.2232,102.5294,0.04],[-0.1597,103.0749,0.04],[-0.0975,103.6204,0.04],[-0.0364,104.1657,0.04],[0.0234,104.7109,0.0399],[0.0822,105.256,0.0399],[0.1398,105.8009,0.0399],[0.1897,106.344,0.0399],[0.2387,106.8869,0.0399],[0.2868,107.4298,0.0398],[0.3341,107.9726,0.0398],[0.3805,108.5153,0.0398],[0.4261,109.0579,0.0398],[0.4242,109.5896,0.0398],[0.4223,110.1212,0.0399],[0.4205,110.6529,0.0399],[0.4187,111.1846,0.0399],[0.4169,111.7162,0.04],[0.4151,112.2479,0.04],[0.3787,112.7735,0.04],[0.3429,113.299,0.0401],[0.3074,113.8245,0.0401],[0.2724,114.3501,0.0402],[0.2378,114.8756,0.0402],[0.2036,115.401,0.0403],[0.1783,115.9183,0.0403],[0.1533,116.4356,0.0404],[0.1287,116.9528,0.0404],[0.1044,117.4701,0.0405],[0.0805,117.9874,0.0405],[0.0569,118.5047,0.0406],[0.0563,119.0136,0.0406],[0.0557,119.5225,0.0406],[0.0552,120.0314,0.0406],[0.0546,120.5404,0.0406],[0.0541,121.0493,0.0406],[0.0536,121.5582,0.0406],[0.0492,122.0537,0.0406],[0.0448,122.5492,0.0406],[0.0405,123.0447,0.0406],[0.0363,123.5402,0.0406],[0.0321,124.0357,0.0406],[0.028,124.5313,0.0406],[0.0397,125.0114,0.0406],[0.0514,125.4914,0.0405],[0.0628,125.9715,0.0405],[0.0741,126.4515,0.0405],[0.0853,126.9316,0.0405],[0.0964,127.4116,0.0405],[0.1205,127.8793,0.0405],[0.1443,128.3469,0.0404],[0.1679,128.8145,0.0404],[0.1912,129.2821,0.0404],[0.2142,129.7497,0.0404],[0.237,130.2172,0.0404],[0.2339,130.6754,0.0404],[0.2308,131.1336,0.0404],[0.2278,131.5919,0.0404],[0.2248,132.0501,0.0404],[0.2218,132.5084,0.0404],[0.2188,132.9666,0.0404],[0.1885,133.4136,0.0405],[0.1585,133.8606,0.0406],[0.1288,134.3076,0.0406],[0.0994,134.7545,0.0407],[0.0704,135.2014,0.0408],[0.0416,135.6482,0.0409],[0.021,136.1026,0.041],[0.0008,136.5569,0.0411],[-0.0191,137.0113,0.0412],[-0.0386,137.4656,0.0414],[-0.0579,137.9199,0.0415],[-0.0768,138.3742,0.0416],[-0.0752,138.8473,0.0417],[-0.0736,139.3205,0.0419],[-0.072,139.7936,0.042],[-0.0705,140.2667,0.0422],[-0.0689,140.7398,0.0423],[-0.0674,141.213,0.0424],[-0.0489,141.7059,0.0426],[-0.0308,142.1987,0.0428],[-0.0131,142.6916,0.043],[0.0041,143.1844,0.0432],[0.0209,143.6773,0.0434],[0.0373,144.1701,0.0436],[0.0886,144.701,0.0438],[0.1383,145.2319,0.0441],[0.1864,145.7627,0.0443],[0.2331,146.2935,0.0445],[0.2784,146.8242,0.0448],[0.3223,147.3549,0.045],[0.4064,147.9321,0.0453],[0.4882,148.5094,0.0455],[0.5676,149.0866,0.0457],[0.6448,149.6638,0.0459],[0.7199,150.2409,0.0462],[0.7929,150.818,0.0464],[0.8928,151.4223,0.0465],[0.991,152.0268,0.0466],[1.0877,152.6312,0.0467],[1.1829,153.2358,0.0468],[1.2764,153.8404,0.0469],[1.3684,154.445,0.047],[1.458,155.0459,0.0469],[1.5475,155.6468,0.0469],[1.637,156.2477,0.0468],[1.7263,156.8487,0.0467],[1.8155,157.4497,0.0466],[1.9045,158.0507,0.0465],[2.0111,158.6245,0.0463],[2.1194,159.1984,0.046],[2.2294,159.7724,0.0457],[2.341,160.3465,0.0454],[2.4544,160.9207,0.0452],[2.5694,161.4949,0.0449],[2.6754,162.0038,0.0445],[2.7844,162.5128,0.044],[2.8966,163.0218,0.0436],[3.0121,163.5308,0.0431],[3.1309,164.0398,0.0427],[3.2531,164.5488,0.0423],[3.3119,164.965,0.0417],[3.3725,165.3813,0.0412],[3.4351,165.7975,0.0407],[3.4998,166.2138,0.0402],[3.5666,166.6301,0.0397],[3.6357,167.0464,0.0392],[3.6315,167.3647,0.0388],[3.6262,167.6831,0.0384],[3.6198,168.0013,0.0379],[3.6121,168.3195,0.0375],[3.6031,168.6377,0.037],[3.5927,168.9558,0.0366],[3.5208,169.1812,0.0363],[3.4457,169.4066,0.036],[3.3672,169.6319,0.0357],[3.2853,169.8571,0.0353],[3.1997,170.0824,0.035],[3.1104,170.3076,0.0347],[2.9809,170.4684,0.0345],[2.8483,170.6294,0.0342],[2.7127,170.7906,0.034],[2.574,170.952,0.0338],[2.4321,171.1137,0.0335],[2.2872,171.2756,0.0333],[2.154,171.3949,0.0332],[2.0196,171.5145,0.033],[1.8841,171.6344,0.0328],[1.7474,171.7546,0.0327],[1.6096,171.8752,0.0325],[1.4707,171.996,0.0324],[1.3966,172.0897,0.0323],[1.3226,172.1836,0.0323],[1.2488,172.2775,0.0322],[1.1751,172.3716,0.0322],[1.1016,172.4658,0.0321],[1.0282,172.56,0.0321],[0.9751,172.6404,0.0321],[0.9218,172.7207,0.0321],[0.8685,172.8009,0.0321],[0.815,172.8812,0.0321],[0.7614,172.9614,0.0321],[0.7077,173.0416,0.0321],[0.6595,173.1222,0.0321],[0.611,173.2027,0.0321],[0.5623,173.2832,0.0321],[0.5134,173.3636,0.032],[0.4642,173.444,0.032],[0.4148,173.5244,0.032],[0.3638,173.6037,0.032],[0.3126,173.683,0.032],[0.2611,173.7622,0.032],[0.2094,173.8413,0.032],[0.1573,173.9204,0.032],[0.105,173.9995,0.032],[0.0449,174.0764,0.032],[-0.0155,174.1532,0.032],[-0.0764,174.23,0.032],[-0.1377,174.3067,0.0319],[-0.1994,174.3833,0.0319],[-0.2615,174.4598,0.0319]];
+    const KDCA_HEIGHT_GIRLS = [[1.0,49.1477,0.0379],[1.0,53.6872,0.0364],[1.0,57.0673,0.0357],[1.0,59.8029,0.0352],[1.0,62.0899,0.0349],[1.0,64.0301,0.0346],[1.0,65.7311,0.0345],[1.0,67.2873,0.0344],[1.0,68.7498,0.0344],[1.0,70.1435,0.0344],[1.0,71.4818,0.0345],[1.0,72.771,0.0346],[1.0,74.015,0.0348],[1.0,75.2176,0.035],[1.0,76.3817,0.0351],[1.0,77.5099,0.0353],[1.0,78.6055,0.0356],[1.0,79.671,0.0358],[1.0,80.7079,0.036],[1.0,81.7182,0.0362],[1.0,82.7036,0.0364],[1.0,83.6654,0.0367],[1.0,84.604,0.0369],[1.0,85.5202,0.0371],[1.0,85.7153,0.0376],[1.0,86.5904,0.0379],[1.0,87.4462,0.0381],[1.0,88.283,0.0383],[1.0,89.1004,0.0385],[1.0,89.8991,0.0387],[1.0,90.6797,0.0389],[1.0,91.443,0.0391],[1.0,92.1906,0.0393],[1.0,92.9239,0.0395],[1.0,93.6444,0.0397],[1.0,94.3533,0.0399],[0.5472,95.4078,0.0413],[0.4997,95.9472,0.0412],[0.4525,96.4867,0.0411],[0.4056,97.0262,0.041],[0.359,97.5658,0.0409],[0.3126,98.1054,0.0408],[0.2825,98.6465,0.0407],[0.2526,99.1877,0.0406],[0.2229,99.7288,0.0405],[0.1934,100.27,0.0404],[0.164,100.8113,0.0403],[0.1348,101.3525,0.0402],[0.1129,101.8943,0.0401],[0.0912,102.4361,0.04],[0.0695,102.9779,0.0399],[0.048,103.5197,0.0398],[0.0267,104.0616,0.0397],[0.0054,104.6034,0.0396],[-0.0216,105.1425,0.0395],[-0.0484,105.6816,0.0395],[-0.0751,106.2208,0.0394],[-0.1016,106.76,0.0393],[-0.128,107.2992,0.0392],[-0.1543,107.8384,0.0391],[-0.1404,108.3714,0.039],[-0.1266,108.9045,0.039],[-0.113,109.4375,0.0389],[-0.0994,109.9706,0.0389],[-0.086,110.5036,0.0388],[-0.0726,111.0366,0.0388],[-0.0272,111.5656,0.0388],[0.0175,112.0946,0.0388],[0.0614,112.6235,0.0388],[0.1047,113.1523,0.0388],[0.1472,113.6811,0.0388],[0.1891,114.2098,0.0388],[0.2115,114.7289,0.0388],[0.2335,115.2479,0.0388],[0.255,115.767,0.0389],[0.2762,116.286,0.0389],[0.297,116.805,0.039],[0.3174,117.324,0.039],[0.2769,117.8257,0.0391],[0.2373,118.3274,0.0391],[0.1986,118.8292,0.0392],[0.1606,119.331,0.0393],[0.1235,119.8329,0.0394],[0.0872,120.3348,0.0394],[0.0163,120.8229,0.0396],[-0.0528,121.311,0.0397],[-0.1201,121.7993,0.0398],[-0.1857,122.2876,0.0399],[-0.2496,122.7761,0.04],[-0.3119,123.2646,0.0401],[-0.3571,123.7505,0.0402],[-0.4012,124.2364,0.0404],[-0.4442,124.7224,0.0405],[-0.4862,125.2084,0.0406],[-0.5271,125.6944,0.0407],[-0.567,126.1805,0.0408],[-0.5993,126.6703,0.041],[-0.6308,127.1601,0.0411],[-0.6616,127.65,0.0412],[-0.6918,128.1399,0.0413],[-0.7213,128.6297,0.0414],[-0.7502,129.1197,0.0415],[-0.779,129.6197,0.0416],[-0.807,130.1199,0.0417],[-0.8342,130.62,0.0418],[-0.8608,131.1202,0.042],[-0.8868,131.6204,0.0421],[-0.9121,132.1207,0.0422],[-0.8812,132.6442,0.0423],[-0.851,133.1677,0.0425],[-0.8214,133.6912,0.0426],[-0.7924,134.2147,0.0428],[-0.764,134.7382,0.0429],[-0.7362,135.2617,0.043],[-0.6545,135.8116,0.0432],[-0.574,136.3617,0.0433],[-0.4946,136.9119,0.0434],[-0.4162,137.4622,0.0435],[-0.3389,138.0126,0.0436],[-0.2627,138.5631,0.0438],[-0.1573,139.1218,0.0438],[-0.0528,139.6805,0.0439],[0.0509,140.2395,0.0439],[0.1538,140.7986,0.044],[0.2558,141.3578,0.044],[0.3569,141.9172,0.0441],[0.4653,142.4689,0.044],[0.5738,143.0207,0.044],[0.6821,143.5726,0.0439],[0.7904,144.1246,0.0438],[0.8986,144.6765,0.0438],[1.0066,145.2285,0.0437],[1.1242,145.7568,0.0435],[1.2433,146.2852,0.0433],[1.3638,146.8136,0.0431],[1.4857,147.3421,0.0429],[1.609,147.8706,0.0427],[1.7336,148.399,0.0425],[1.8239,148.8746,0.0421],[1.9161,149.3501,0.0418],[2.0103,149.8256,0.0415],[2.1065,150.3011,0.0412],[2.2047,150.7766,0.0409],[2.3049,151.2521,0.0406],[2.3447,151.6571,0.0402],[2.3855,152.0621,0.0399],[2.4272,152.4672,0.0395],[2.4699,152.8722,0.0392],[2.5136,153.2772,0.0388],[2.5584,153.6821,0.0385],[2.5648,154.0138,0.0382],[2.5712,154.3455,0.0378],[2.5775,154.6772,0.0375],[2.5837,155.0089,0.0372],[2.5899,155.3405,0.0368],[2.5959,155.6722,0.0365],[2.5607,155.9198,0.0362],[2.5239,156.1672,0.036],[2.4856,156.4146,0.0357],[2.4458,156.6619,0.0355],[2.4042,156.9091,0.0352],[2.3609,157.1562,0.035],[2.3149,157.3292,0.0348],[2.2677,157.5021,0.0346],[2.2195,157.675,0.0345],[2.1701,157.8478,0.0343],[2.1196,158.0205,0.0342],[2.0679,158.1932,0.034],[2.0549,158.3159,0.0339],[2.0417,158.4387,0.0338],[2.0284,158.5614,0.0337],[2.015,158.6842,0.0336],[2.0014,158.8069,0.0335],[1.9877,158.9297,0.0335],[1.967,159.0139,0.0334],[1.9462,159.0981,0.0333],[1.9254,159.1823,0.0332],[1.9045,159.2666,0.0332],[1.8835,159.3508,0.0331],[1.8625,159.4351,0.033],[1.79,159.4917,0.033],[1.7178,159.5483,0.033],[1.6457,159.6051,0.0329],[1.5739,159.6619,0.0329],[1.5022,159.7189,0.0328],[1.4308,159.776,0.0328],[1.3515,159.8149,0.0328],[1.2721,159.8539,0.0327],[1.1928,159.893,0.0327],[1.1134,159.9321,0.0326],[1.034,159.9714,0.0326],[0.9547,160.0107,0.0325],[0.8678,160.0286,0.0325],[0.7803,160.0465,0.0324],[0.6921,160.0644,0.0323],[0.6032,160.0823,0.0322],[0.5137,160.1002,0.0322],[0.4236,160.1182,0.0321],[0.332,160.1342,0.032],[0.2396,160.1502,0.032],[0.1464,160.1661,0.0319],[0.0522,160.1821,0.0318],[-0.0428,160.198,0.0317],[-0.1387,160.214,0.0317],[-0.164,160.2483,0.0316],[-0.1896,160.2827,0.0316],[-0.2154,160.317,0.0315],[-0.2414,160.3514,0.0315],[-0.2675,160.3857,0.0314],[-0.294,160.42,0.0314],[-0.311,160.4524,0.0313],[-0.3282,160.4847,0.0313],[-0.3456,160.5171,0.0313],[-0.3631,160.5494,0.0312],[-0.3808,160.5817,0.0312],[-0.3985,160.614,0.0311],[-0.4107,160.6484,0.0311],[-0.4229,160.6827,0.031],[-0.4352,160.7171,0.031],[-0.4476,160.7514,0.031],[-0.4601,160.7857,0.0309],[-0.4727,160.82,0.0309],[-0.4804,160.8591,0.0309],[-0.4881,160.8981,0.0308],[-0.4959,160.9372,0.0308],[-0.5037,160.9762,0.0307],[-0.5116,161.0153,0.0307],[-0.5195,161.0543,0.0307]];
 
     function getTable(sex) {
       return sex === 'M' ? MULTIPLIER_BOYS : MULTIPLIER_GIRLS;
@@ -1464,6 +1740,7 @@
       return 1.0;
     }
 
+    // Handles flat plateaus (e.g., Boys 16+0 and 16+6 both = 1.010) safely without NaN
     function getAgeFromMultiplier(sex, targetM) {
       const tbl = getTable(sex);
       if (targetM >= tbl[0][1]) return { age: tbl[0][0], outOfRange: 'tooYoung' };
@@ -1473,6 +1750,9 @@
         const [a1, m1] = tbl[i];
         const [a2, m2] = tbl[i + 1];
         if (targetM <= m1 && targetM >= m2) {
+          if (Math.abs(m1 - m2) < 1e-9) {
+            return { age: (a1 + a2) / 2, outOfRange: null };
+          }
           const t = (m1 - targetM) / (m1 - m2);
           return { age: a1 + t * (a2 - a1), outOfRange: null };
         }
@@ -1480,12 +1760,38 @@
       return { age: last[0], outOfRange: 'mature' };
     }
 
+    // Standard Normal CDF (Abramowitz & Stegun 7.1.26, max error < 1.5e-7)
+    function normCDF(z) {
+      const sign = z < 0 ? -1 : 1;
+      const x = Math.abs(z) / Math.SQRT2;
+      const t = 1.0 / (1.0 + 0.3275911 * x);
+      const y = 1.0 - (((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t) * Math.exp(-x * x);
+      return 0.5 * (1.0 + sign * y);
+    }
+
+    function lmsHeightFromZ(L, M, S, z) {
+      if (Math.abs(L) > 1e-6) {
+        const base = 1 + L * S * z;
+        return base > 0 ? M * Math.pow(base, 1 / L) : NaN;
+      }
+      return M * Math.exp(S * z);
+    }
+
+    function lmsZFromHeight(L, M, S, height) {
+      if (height <= 0 || M <= 0 || S <= 0) return NaN;
+      if (Math.abs(L) > 1e-6) {
+        return (Math.pow(height / M, L) - 1) / (L * S);
+      }
+      return Math.log(height / M) / S;
+    }
+
     // =========================================================================
-    // 2. App State
+    // 3. App State
     // =========================================================================
     const state = {
       sex: 'M',
       etiology: 'congenital',
+      htSex: 'M',
       activeTab: 'basic',
       regRows: [
         { age: 7.0, norm: 55.0, short: 53.4 },
@@ -1493,7 +1799,8 @@
         { age: 10.0, norm: 68.0, short: 65.7 },
         { age: 11.5, norm: 74.0, short: 71.3 }
       ],
-      lastCalc: null
+      lastCalc: null,
+      lastHeight: null
     };
 
     const $ = (id) => document.getElementById(id);
@@ -1511,7 +1818,7 @@
     }
 
     // =========================================================================
-    // 3. Core Calculation Engine
+    // 4. Core LLD Calculation Engine
     // =========================================================================
     function computeAll() {
       const sex = state.sex;
@@ -1576,27 +1883,9 @@
       const corrNeeded = Math.max(0, multPred - targetResidual);
 
       const sites = [
-        {
-          id: 'femur',
-          name: '대퇴 원위부 단독',
-          sub: '대퇴 71% · 9 mm/yr',
-          wmRate: 0.9,
-          denom: 0.71 * femM
-        },
-        {
-          id: 'tibia',
-          name: '경골 근위부 단독',
-          sub: '경골 57% · 6 mm/yr',
-          wmRate: 0.6,
-          denom: 0.57 * tibM
-        },
-        {
-          id: 'both',
-          name: '대퇴 원위 + 경골 근위 동시',
-          sub: '슬관절 약 65% · 15 mm/yr',
-          wmRate: 1.5,
-          denom: 0.71 * femM + 0.57 * tibM
-        }
+        { id: 'femur', name: '대퇴 원위부 단독', sub: '대퇴 71% · 9 mm/yr', wmRate: 0.9, denom: 0.71 * femM },
+        { id: 'tibia', name: '경골 근위부 단독', sub: '경골 57% · 6 mm/yr', wmRate: 0.6, denom: 0.57 * tibM },
+        { id: 'both', name: '대퇴 원위 + 경골 근위 동시', sub: '슬관절 약 65% · 15 mm/yr', wmRate: 1.5, denom: 0.71 * femM + 0.57 * tibM }
       ];
 
       const epiResults = sites.map((s) => {
@@ -1646,10 +1935,11 @@
 
       renderBasicUI();
       renderMoseleyUI();
+      renderReferenceTable();
     }
 
     // =========================================================================
-    // 4. Render Basic Calculator UI
+    // 5. Render Basic Calculator UI
     // =========================================================================
     function renderBasicUI() {
       const c = state.lastCalc;
@@ -1669,8 +1959,7 @@
 
       $('kpiGirTag').textContent = c.etiology === 'congenital' ? '선천성 비례' : '2회 계측';
       $('kpiGirVal').textContent = `${fmt(c.I * 100, 1)}%`;
-      $('kpiGirSub').textContent =
-        `M=${fmt(c.M, 3)} · 잔여 ${fmt(c.remGrowth)} cm · GIR ${fmt(c.girCmYr, 2)}`;
+      $('kpiGirSub').textContent = `M=${fmt(c.M, 3)} · 잔여 ${fmt(c.remGrowth)} cm · GIR ${fmt(c.girCmYr, 2)}`;
 
       $('kpiMultVal').textContent = `${fmt(c.multPred)} cm`;
       $('kpiMultSub').textContent = `성숙 건측 ${fmt(c.Lm)} cm (M=${fmt(c.M, 3)})`;
@@ -1679,8 +1968,7 @@
 
       $('kpiWmVal').textContent = `${fmt(c.wmPred)} cm`;
       $('kpiWmBadge').textContent = `잔여 ${fmt(c.wmRemYears)}년`;
-      $('kpiWmSub').textContent =
-        `GIR ${fmt(Math.max(0, c.girCmYr), 2)} cm/yr × ${fmt(c.wmRemYears)}년`;
+      $('kpiWmSub').textContent = `GIR ${fmt(Math.max(0, c.girCmYr), 2)} cm/yr × ${fmt(c.wmRemYears)}년`;
 
       $('msbMult').textContent = `${fmt(c.multPred)} cm`;
       $('msbWm').textContent = `${fmt(c.wmPred)} cm`;
@@ -1688,8 +1976,7 @@
       $('targetResidualVal').textContent = `${fmt(c.targetResidual)} cm`;
       $('simCorrBadge').textContent = `교정 목표: ${fmt(c.corrNeeded)} cm`;
 
-      const tbody = $('epiTableBody');
-      tbody.innerHTML = c.epiResults.map((r) => {
+      $('epiTableBody').innerHTML = c.epiResults.map((r) => {
         const meStr = r.multFeasible && r.mE ? fmt(r.mE, 3) : '초과';
         const mAgeStr = r.multFeasible && r.multOptAge !== null ? `${fmt(r.multOptAge)}세` : '단독 불가';
         const wAgeStr = r.wmOptAge >= 0 ? `${fmt(r.wmOptAge)}세` : '단독 불가';
@@ -1738,16 +2025,12 @@
           html: `<strong>경과 관찰</strong> (목표 잔여 ${fmt(c.targetResidual)} cm 이내, 유합술 불필요)`
         };
       }
-      const fem = c.epiResults[0];
-      const tib = c.epiResults[1];
-      const both = c.epiResults[2];
-
+      const [fem, tib, both] = c.epiResults;
       const lines = [
         `대퇴 원위: Multiplier ${fem.multFeasible ? fmt(fem.multOptAge) + '세' : '단독불가'} (WM ${fem.wmOptAge >= 0 ? fmt(fem.wmOptAge) + '세' : '불가'})`,
         `경골 근위: Multiplier ${tib.multFeasible ? fmt(tib.multOptAge) + '세' : '단독불가'} (WM ${tib.wmOptAge >= 0 ? fmt(tib.wmOptAge) + '세' : '불가'})`,
         `동시 유합: Multiplier ${both.multFeasible ? fmt(both.multOptAge) + '세' : '단독불가'} (WM ${both.wmOptAge >= 0 ? fmt(both.wmOptAge) + '세' : '불가'})`
       ];
-
       return {
         text: `목표 교정 ${fmt(c.corrNeeded)} cm (잔여목표 ${fmt(c.targetResidual)} cm) | ` + lines.join(' / '),
         html:
@@ -1761,7 +2044,7 @@
     }
 
     // =========================================================================
-    // 5. Responsive Pure Canvas Charts (Zero CDN Dependency)
+    // 6. Canvas Helper & Basic Comparison Chart
     // =========================================================================
     function setupCanvas(canvas, cssHeight) {
       const dpr = window.devicePixelRatio || 1;
@@ -1790,8 +2073,8 @@
 
     function drawCompChart(c) {
       const canvas = $('compChart');
-      const parentW = canvas.parentElement.clientWidth;
-      const isNarrow = parentW < 460;
+      if (!canvas.offsetParent) return;
+      const isNarrow = canvas.parentElement.clientWidth < 460;
       const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 206 : 190);
       ctx.clearRect(0, 0, w, h);
 
@@ -1802,9 +2085,7 @@
       ];
 
       const maxVal = Math.max(4.0, Math.ceil(Math.max(...items.map(i => i.val), 2.0) + 0.8));
-      const pad = isNarrow
-        ? { l: 10, r: 14, t: 22, b: 26 }
-        : { l: 138, r: 52, t: 20, b: 30 };
+      const pad = isNarrow ? { l: 10, r: 14, t: 22, b: 26 } : { l: 138, r: 52, t: 20, b: 30 };
       const plotW = Math.max(80, w - pad.l - pad.r);
       const plotH = h - pad.t - pad.b;
       const xOf = (v) => pad.l + (v / maxVal) * plotW;
@@ -1817,14 +2098,10 @@
       ctx.font = '11px -apple-system, sans-serif';
       ctx.fillStyle = '#64748b';
       ctx.textAlign = 'center';
-
       const step = maxVal > 8 ? 2 : 1;
       for (let v = 0; v <= maxVal; v += step) {
         const x = xOf(v);
-        ctx.beginPath();
-        ctx.moveTo(x, pad.t);
-        ctx.lineTo(x, pad.t + plotH);
-        ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
         ctx.fillText(v + 'cm', x, h - 8);
       }
 
@@ -1833,10 +2110,7 @@
       ctx.setLineDash([4, 4]);
       ctx.strokeStyle = '#059669';
       ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(x15, pad.t);
-      ctx.lineTo(x15, pad.t + plotH);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x15, pad.t); ctx.lineTo(x15, pad.t + plotH); ctx.stroke();
       ctx.restore();
       ctx.fillStyle = '#059669';
       ctx.font = 'bold 10.5px -apple-system, sans-serif';
@@ -1848,20 +2122,16 @@
         items.forEach((it, idx) => {
           const topY = pad.t + rowH * idx + 6;
           const bw = Math.max(3, xOf(it.val) - pad.l);
-
           ctx.textBaseline = 'top';
           ctx.fillStyle = '#1e293b';
           ctx.font = 'bold 12px -apple-system, sans-serif';
           ctx.textAlign = 'left';
           ctx.fillText(it.label, pad.l, topY);
-
           ctx.fillStyle = it.color;
           ctx.textAlign = 'right';
           ctx.fillText(`${fmt(it.val)} cm`, pad.l + plotW, topY);
-
           ctx.fillStyle = '#e2e8f0';
           drawRoundedBar(ctx, pad.l, topY + 18, plotW, 18, 5);
-
           ctx.fillStyle = it.color;
           drawRoundedBar(ctx, pad.l, topY + 18, bw, 18, 5);
         });
@@ -1870,16 +2140,13 @@
         items.forEach((it, idx) => {
           const cy = pad.t + rowH * idx + rowH / 2;
           const bw = Math.max(3, xOf(it.val) - pad.l);
-
           ctx.fillStyle = '#1e293b';
           ctx.font = 'bold 12px -apple-system, sans-serif';
           ctx.textAlign = 'right';
           ctx.textBaseline = 'middle';
           ctx.fillText(it.label, pad.l - 12, cy);
-
           ctx.fillStyle = it.color;
           drawRoundedBar(ctx, pad.l, cy - barH / 2, bw, barH, 6);
-
           ctx.fillStyle = '#0f172a';
           ctx.font = 'bold 12px -apple-system, sans-serif';
           ctx.textAlign = 'left';
@@ -1889,7 +2156,7 @@
     }
 
     // =========================================================================
-    // 6. Moseley Straight-Line Graph Tab
+    // 7. Moseley Straight-Line Graph Tab
     // =========================================================================
     function renderMoseleyUI() {
       const c = state.lastCalc;
@@ -1898,8 +2165,6 @@
       const site = $('moseleySite').value;
       const slopeMap = { femur: 0.37, tibia: 0.28, both: 0.65 };
       const k = slopeMap[site];
-      const postSlope = 1 - k;
-
       const lengthen = parseFloat($('lengthenSlider').value) || 0;
       $('lengthenVal').textContent = `+${fmt(lengthen)} cm`;
 
@@ -1907,7 +2172,6 @@
       const Lm = c.Lm;
       const Lcurr = c.currTotalNorm;
       const Scurr = c.currTotalShort;
-
       const S_mat_noOp = Scurr + shortSlope * (Lm - Lcurr);
       const S_mat_len = S_mat_noOp + lengthen;
       const lldNoOp = Math.max(0, Lm - S_mat_noOp);
@@ -1949,7 +2213,7 @@
         </tr>
       `;
 
-      drawMoseleyCanvas({ c, Lcurr, Scurr, Lm, shortSlope, lengthen, S_mat_noOp, S_mat_len, Lop, postSlope, k });
+      drawMoseleyCanvas({ c, Lcurr, Scurr, Lm, shortSlope, lengthen, S_mat_noOp, S_mat_len, Lop, k });
     }
 
     function drawMoseleyCanvas(d) {
@@ -1959,15 +2223,12 @@
       const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 290 : 370);
       ctx.clearRect(0, 0, w, h);
 
-      const pad = isNarrow
-        ? { l: 42, r: 16, t: 24, b: 38 }
-        : { l: 56, r: 28, t: 28, b: 44 };
+      const pad = isNarrow ? { l: 42, r: 16, t: 24, b: 38 } : { l: 56, r: 28, t: 28, b: 44 };
       const plotW = Math.max(120, w - pad.l - pad.r);
       const plotH = h - pad.t - pad.b;
 
       const minVal = Math.max(15, Math.floor((Math.min(d.Scurr, d.Lcurr) - 12) / 5) * 5);
       const maxVal = Math.ceil((Math.max(d.Lm, d.S_mat_len) + 6) / 5) * 5;
-
       const xOf = (v) => pad.l + ((v - minVal) / (maxVal - minVal)) * plotW;
       const yOf = (v) => pad.t + plotH - ((v - minVal) / (maxVal - minVal)) * plotH;
 
@@ -1977,14 +2238,11 @@
       ctx.fillStyle = '#64748b';
       const step = (maxVal - minVal) > (isNarrow ? 30 : 45) ? 10 : 5;
       for (let v = minVal; v <= maxVal; v += step) {
-        const x = xOf(v);
-        const y = yOf(v);
+        const x = xOf(v), y = yOf(v);
         ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + plotW, y); ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.fillText(v, x, pad.t + plotH + 15);
-        ctx.textAlign = 'right';
-        ctx.fillText(v, pad.l - 6, y + 4);
+        ctx.textAlign = 'center'; ctx.fillText(v, x, pad.t + plotH + 15);
+        ctx.textAlign = 'right'; ctx.fillText(v, pad.l - 6, y + 4);
       }
 
       ctx.fillStyle = '#334155';
@@ -1992,49 +2250,28 @@
       ctx.textAlign = 'center';
       ctx.fillText('정상 하지 성장 기준축 (cm)', pad.l + plotW / 2, h - 6);
       if (!isNarrow) {
-        ctx.save();
-        ctx.translate(14, pad.t + plotH / 2);
-        ctx.rotate(-Math.PI / 2);
-        ctx.fillText('하지 길이 (cm)', 0, 0);
-        ctx.restore();
+        ctx.save(); ctx.translate(14, pad.t + plotH / 2); ctx.rotate(-Math.PI / 2);
+        ctx.fillText('하지 길이 (cm)', 0, 0); ctx.restore();
       }
 
       const xMat = xOf(d.Lm);
-      ctx.save();
-      ctx.setLineDash([5, 4]);
-      ctx.strokeStyle = '#6366f1';
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(xMat, pad.t);
-      ctx.lineTo(xMat, pad.t + plotH);
-      ctx.stroke();
-      ctx.restore();
-      ctx.fillStyle = '#4f46e5';
-      ctx.font = 'bold 10.5px -apple-system, sans-serif';
-      ctx.textAlign = 'right';
+      ctx.save(); ctx.setLineDash([5, 4]); ctx.strokeStyle = '#6366f1'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(xMat, pad.t); ctx.lineTo(xMat, pad.t + plotH); ctx.stroke(); ctx.restore();
+      ctx.fillStyle = '#4f46e5'; ctx.font = 'bold 10.5px -apple-system, sans-serif'; ctx.textAlign = 'right';
       ctx.fillText(`성숙선 ${fmt(d.Lm)}`, Math.min(xMat + 10, pad.l + plotW), pad.t - 7);
 
-      ctx.strokeStyle = '#0f172a';
-      ctx.lineWidth = 2.2;
-      ctx.beginPath();
-      ctx.moveTo(xOf(minVal), yOf(minVal));
-      ctx.lineTo(xOf(d.Lm), yOf(d.Lm));
-      ctx.stroke();
+      ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(xOf(minVal), yOf(minVal)); ctx.lineTo(xOf(d.Lm), yOf(d.Lm)); ctx.stroke();
 
       const S_start = d.Scurr - d.shortSlope * (d.Lcurr - minVal);
       ctx.save();
       if (d.lengthen > 0) ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = '#0d9488';
-      ctx.lineWidth = 2.2;
-      ctx.beginPath();
-      ctx.moveTo(xOf(minVal), yOf(Math.max(minVal, S_start)));
-      ctx.lineTo(xOf(d.Lm), yOf(d.S_mat_noOp));
-      ctx.stroke();
+      ctx.strokeStyle = '#0d9488'; ctx.lineWidth = 2.2;
+      ctx.beginPath(); ctx.moveTo(xOf(minVal), yOf(Math.max(minVal, S_start))); ctx.lineTo(xOf(d.Lm), yOf(d.S_mat_noOp)); ctx.stroke();
       ctx.restore();
 
       if (d.lengthen > 0) {
-        ctx.strokeStyle = '#d97706';
-        ctx.lineWidth = 2.8;
+        ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.8;
         ctx.beginPath();
         ctx.moveTo(xOf(d.Lcurr), yOf(d.Scurr));
         ctx.lineTo(xOf(d.Lcurr), yOf(d.Scurr + d.lengthen));
@@ -2043,31 +2280,21 @@
       }
 
       if (d.Lop !== null && d.Lop >= minVal && d.Lop < d.Lm) {
-        ctx.strokeStyle = '#dc2626';
-        ctx.lineWidth = 2.4;
-        ctx.beginPath();
-        ctx.moveTo(xOf(d.Lop), yOf(d.Lop));
-        ctx.lineTo(xOf(d.Lm), yOf(d.S_mat_len));
-        ctx.stroke();
-
-        ctx.fillStyle = '#dc2626';
-        ctx.beginPath();
-        ctx.arc(xOf(d.Lop), yOf(d.Lop), 5, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 2.4;
+        ctx.beginPath(); ctx.moveTo(xOf(d.Lop), yOf(d.Lop)); ctx.lineTo(xOf(d.Lm), yOf(d.S_mat_len)); ctx.stroke();
+        ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.arc(xOf(d.Lop), yOf(d.Lop), 5, 0, Math.PI * 2); ctx.fill();
         ctx.font = 'bold 10.5px -apple-system, sans-serif';
         ctx.textAlign = xOf(d.Lop) > pad.l + 90 ? 'right' : 'left';
         const tx = xOf(d.Lop) > pad.l + 90 ? xOf(d.Lop) - 7 : xOf(d.Lop) + 7;
         ctx.fillText(`L_op=${fmt(d.Lop)}`, tx, yOf(d.Lop) - 7);
       }
 
-      ctx.fillStyle = '#0f172a';
-      ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Lcurr), 4.5, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#0d9488';
-      ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Scurr), 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Lcurr), 4.5, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#0d9488'; ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Scurr), 4.5, 0, Math.PI * 2); ctx.fill();
     }
 
     // =========================================================================
-    // 7. Multi-Measurement OLS Regression Tab
+    // 8. Multi-Measurement OLS Regression Tab
     // =========================================================================
     function renderRegTable() {
       const tbody = $('regTableBody');
@@ -2181,9 +2408,7 @@
       const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 225 : 270);
       ctx.clearRect(0, 0, w, h);
 
-      const pad = isNarrow
-        ? { l: 42, r: 16, t: 22, b: 34 }
-        : { l: 52, r: 28, t: 24, b: 40 };
+      const pad = isNarrow ? { l: 42, r: 16, t: 22, b: 34 } : { l: 52, r: 28, t: 24, b: 40 };
       const plotW = Math.max(100, w - pad.l - pad.r);
       const plotH = h - pad.t - pad.b;
 
@@ -2194,50 +2419,256 @@
       const xOf = (a) => pad.l + ((a - minAge) / (maxAge - minAge)) * plotW;
       const yOf = (y) => pad.t + plotH - (y / maxY) * plotH;
 
-      ctx.strokeStyle = '#e2e8f0';
-      ctx.lineWidth = 1;
-      ctx.font = '10.5px -apple-system, sans-serif';
-      ctx.fillStyle = '#64748b';
+      ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+      ctx.font = '10.5px -apple-system, sans-serif'; ctx.fillStyle = '#64748b';
       for (let a = minAge; a <= maxAge; a += 2) {
         const x = xOf(a);
         ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
-        ctx.textAlign = 'center';
-        ctx.fillText(a + '세', x, pad.t + plotH + 15);
+        ctx.textAlign = 'center'; ctx.fillText(a + '세', x, pad.t + plotH + 15);
       }
       for (let y = 0; y <= maxY; y += 1) {
         const py = yOf(y);
         ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(pad.l + plotW, py); ctx.stroke();
-        ctx.textAlign = 'right';
-        ctx.fillText(y + 'cm', pad.l - 6, py + 4);
+        ctx.textAlign = 'right'; ctx.fillText(y + 'cm', pad.l - 6, py + 4);
       }
 
-      ctx.strokeStyle = '#0d9488';
-      ctx.lineWidth = 2.2;
+      ctx.strokeStyle = '#0d9488'; ctx.lineWidth = 2.2;
       ctx.beginPath();
       ctx.moveTo(xOf(sorted[0].age), yOf(Math.max(0, reg.slope * sorted[0].age + reg.intercept)));
       ctx.lineTo(xOf(matAge), yOf(predMat));
       ctx.stroke();
 
       sorted.forEach((r) => {
-        const x = xOf(r.age);
-        const y = yOf(Math.max(0, r.norm - r.short));
-        ctx.fillStyle = '#1e293b';
-        ctx.beginPath();
-        ctx.arc(x, y, 4.8, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillStyle = '#1e293b'; ctx.beginPath();
+        ctx.arc(xOf(r.age), yOf(Math.max(0, r.norm - r.short)), 4.8, 0, Math.PI * 2); ctx.fill();
       });
 
-      ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.arc(xOf(matAge), yOf(predMat), 5.5, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.font = 'bold 11px -apple-system, sans-serif';
-      ctx.textAlign = 'right';
+      ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.arc(xOf(matAge), yOf(predMat), 5.5, 0, Math.PI * 2); ctx.fill();
+      ctx.font = 'bold 11px -apple-system, sans-serif'; ctx.textAlign = 'right';
       ctx.fillText(`성숙 ${fmt(predMat)}cm`, xOf(matAge) - 6, yOf(predMat) - 8);
     }
 
     // =========================================================================
-    // 8. Event Listeners & iOS/Mobile Interactions
+    // 9. 2017 KDCA Height Percentile Calculator & Growth Curve Chart
+    // =========================================================================
+    const Z_TICKS = [
+      { label: '3rd', z: -1.88079 },
+      { label: '10th', z: -1.28155 },
+      { label: '25th', z: -0.67449 },
+      { label: '50th', z: 0.0 },
+      { label: '75th', z: 0.67449 },
+      { label: '90th', z: 1.28155 },
+      { label: '97th', z: 1.88079 }
+    ];
+
+    function computeHeightPercentile() {
+      const sex = state.htSex;
+      let yrs = Math.max(0, Math.min(18, Math.floor(parseFloat($('htYears').value) || 0)));
+      let mos = Math.max(0, Math.min(11, Math.floor(parseFloat($('htMonths').value) || 0)));
+      const totalMonths = Math.max(0, Math.min(227, yrs * 12 + mos));
+      const height = Math.max(20, parseFloat($('htCm').value) || 100);
+
+      const tbl = sex === 'M' ? KDCA_HEIGHT_BOYS : KDCA_HEIGHT_GIRLS;
+      const [L, M, S] = tbl[totalMonths];
+      const z = lmsZFromHeight(L, M, S, height);
+      const pct = normCDF(z) * 100;
+
+      // Projected height at 227m (18y 11m) maintaining same Z-score
+      const [L_ad, M_ad, S_ad] = tbl[227];
+      const adultEst = lmsHeightFromZ(L_ad, M_ad, S_ad, z);
+
+      let pctLabel = `${fmt(pct, 1)}%ile`;
+      if (pct < 0.1) pctLabel = '< 0.1%ile';
+      else if (pct > 99.9) pctLabel = '> 99.9%ile';
+
+      let statusText = '정상 범위 (10~90%ile)';
+      let statusClass = 'pill-green';
+      if (pct < 3) { statusText = '저신장 의심 (< 3%ile)'; statusClass = 'pill-red'; }
+      else if (pct < 10) { statusText = '하위권 (3~10%ile)'; statusClass = 'pill-amber'; }
+      else if (pct > 97) { statusText = '고신장 범위 (> 97%ile)'; statusClass = 'pill-blue'; }
+      else if (pct > 90) { statusText = '상위권 (90~97%ile)'; statusClass = 'pill-blue'; }
+
+      $('htAgeNote').textContent =
+        `만 ${yrs}세 ${mos}개월 (${totalMonths}개월) · ${totalMonths < 24 ? '누운키(Recumbent length) 기준' : '선키(Standing height) 기준'}`;
+
+      $('htSummaryMeta').textContent =
+        `${sex === 'M' ? '남아' : '여아'} · 만 ${yrs}세 ${mos}개월 (${totalMonths}개월) · ${fmt(height)} cm`;
+      $('htPctVal').textContent = pctLabel;
+      $('htZVal').textContent = `표준점수 (Z-score / SDS): ${z >= 0 ? '+' : ''}${fmt(z, 2)} SD`;
+
+      const pill = $('htStatusPill');
+      pill.textContent = statusText;
+      pill.className = `pill ${statusClass}`;
+
+      $('htGaugeMarker').style.left = `${Math.max(1, Math.min(99, pct))}%`;
+
+      $('htMedianVal').textContent = `${fmt(M)} cm`;
+      const diffM = height - M;
+      $('htDiffMedian').textContent = `중앙값 대비 ${diffM >= 0 ? '+' : ''}${fmt(diffM)} cm`;
+
+      $('htAdultVal').textContent = isFinite(adultEst) ? `${fmt(adultEst)} cm` : '-';
+      $('htAdultSub').textContent = `Z=${z >= 0 ? '+' : ''}${fmt(z, 2)} 유지 가정 (18세 11개월 중앙값 ${fmt(M_ad)} cm)`;
+
+      $('htRefGrid').innerHTML = Z_TICKS.map((tk) => {
+        const val = lmsHeightFromZ(L, M, S, tk.z);
+        return `
+          <div class="pct-ref-cell ${tk.label === '50th' ? 'mid' : ''}">
+            <div class="pct-ref-p">${tk.label}</div>
+            <div class="pct-ref-v">${fmt(val)}</div>
+          </div>
+        `;
+      }).join('');
+
+      state.lastHeight = { sex, yrs, mos, totalMonths, height, z, pct, pctLabel, M, adultEst };
+      drawHeightCurveCanvas(state.lastHeight);
+    }
+
+    function drawHeightCurveCanvas(d) {
+      const canvas = $('heightCurveChart');
+      if (!canvas.offsetParent) return;
+      const isNarrow = canvas.parentElement.clientWidth < 480;
+      const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 260 : 310);
+      ctx.clearRect(0, 0, w, h);
+
+      const tbl = d.sex === 'M' ? KDCA_HEIGHT_BOYS : KDCA_HEIGHT_GIRLS;
+      // Show 0~3세 zoom if patient < 36 months, otherwise 2~19세 full pediatric/adolescent view
+      const isInfant = d.totalMonths < 36;
+      const minMo = isInfant ? 0 : 24;
+      const maxMo = isInfant ? 36 : 227;
+      const minH = isInfant ? 42 : 75;
+      const maxH = isInfant ? 108 : (d.sex === 'M' ? 195 : 182);
+
+      const pad = isNarrow ? { l: 38, r: 28, t: 16, b: 32 } : { l: 48, r: 38, t: 18, b: 36 };
+      const plotW = Math.max(120, w - pad.l - pad.r);
+      const plotH = h - pad.t - pad.b;
+
+      const xOf = (m) => pad.l + ((m - minMo) / (maxMo - minMo)) * plotW;
+      const yOf = (cm) => pad.t + plotH - ((cm - minH) / (maxH - minH)) * plotH;
+
+      // Grid
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.fillStyle = '#64748b';
+
+      if (isInfant) {
+        for (let m = 0; m <= 36; m += 6) {
+          const x = xOf(m);
+          ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
+          ctx.textAlign = 'center'; ctx.fillText(m + 'm', x, pad.t + plotH + 14);
+        }
+      } else {
+        for (let y = 2; y <= 19; y += 2) {
+          const m = Math.min(227, y * 12);
+          const x = xOf(m);
+          ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
+          ctx.textAlign = 'center'; ctx.fillText(y + '세', x, pad.t + plotH + 14);
+        }
+      }
+
+      const yStep = isInfant ? 10 : 20;
+      for (let cm = Math.ceil(minH / yStep) * yStep; cm <= maxH; cm += yStep) {
+        const py = yOf(cm);
+        ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(pad.l + plotW, py); ctx.stroke();
+        ctx.textAlign = 'right'; ctx.fillText(cm, pad.l - 5, py + 3);
+      }
+
+      // Draw 7 percentile curves
+      const curveStyles = [
+        { label: '3', z: -1.88079, color: '#ef4444', width: 1.3, dash: [3, 3] },
+        { label: '10', z: -1.28155, color: '#f59e0b', width: 1.1, dash: [] },
+        { label: '25', z: -0.67449, color: '#94a3b8', width: 1.0, dash: [] },
+        { label: '50', z: 0.0, color: '#0d9488', width: 2.3, dash: [] },
+        { label: '75', z: 0.67449, color: '#94a3b8', width: 1.0, dash: [] },
+        { label: '90', z: 1.28155, color: '#3b82f6', width: 1.1, dash: [] },
+        { label: '97', z: 1.88079, color: '#6366f1', width: 1.3, dash: [3, 3] }
+      ];
+
+      curveStyles.forEach((cs) => {
+        ctx.save();
+        ctx.strokeStyle = cs.color;
+        ctx.lineWidth = cs.width;
+        if (cs.dash.length) ctx.setLineDash(cs.dash);
+        ctx.beginPath();
+        let started = false;
+        const stepM = isInfant ? 1 : 3;
+        for (let m = minMo; m <= maxMo; m += stepM) {
+          const [L, M, S] = tbl[m];
+          const val = lmsHeightFromZ(L, M, S, cs.z);
+          const x = xOf(m), y = yOf(val);
+          if (!started) { ctx.moveTo(x, y); started = true; }
+          else ctx.lineTo(x, y);
+        }
+        const [Le, Me, Se] = tbl[maxMo];
+        const endVal = lmsHeightFromZ(Le, Me, Se, cs.z);
+        ctx.lineTo(xOf(maxMo), yOf(endVal));
+        ctx.stroke();
+        ctx.restore();
+
+        // Right-side curve label
+        ctx.fillStyle = cs.color;
+        ctx.font = cs.label === '50' ? 'bold 10px -apple-system, sans-serif' : '9.5px -apple-system, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(cs.label, xOf(maxMo) + 4, yOf(endVal) + 3);
+      });
+
+      // Plot patient dot
+      const clampedH = Math.max(minH, Math.min(maxH, d.height));
+      const px = xOf(d.totalMonths);
+      const py = yOf(clampedH);
+
+      // Crosshair dashed guides
+      ctx.save();
+      ctx.setLineDash([3, 3]);
+      ctx.strokeStyle = 'rgba(220, 38, 38, 0.5)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(px, pad.t); ctx.lineTo(px, pad.t + plotH); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(pad.l + plotW, py); ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.arc(px, py, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 11px -apple-system, sans-serif';
+      const alignRight = px > pad.l + plotW * 0.65;
+      ctx.textAlign = alignRight ? 'right' : 'left';
+      ctx.fillText(`${fmt(d.height)}cm (${d.pctLabel})`, px + (alignRight ? -9 : 9), Math.max(pad.t + 12, py - 8));
+    }
+
+    // =========================================================================
+    // 10. Reference Tab Table Rendering
+    // =========================================================================
+    function renderReferenceTable() {
+      const c = state.lastCalc;
+      const curAge = c ? c.chronoAge : 12.0;
+      $('refCurrentAgePill').textContent = `현재 입력: ${fmt(curAge)}세 (${c && c.sex === 'F' ? '여아' : '남아'})`;
+
+      // Find nearest bracket index
+      let closestIdx = 0;
+      let minDist = Infinity;
+      PALEY_REF_TABLE.forEach((r, idx) => {
+        const dist = Math.abs(r[1] - curAge);
+        if (dist < minDist) { minDist = dist; closestIdx = idx; }
+      });
+
+      $('refTableBody').innerHTML = PALEY_REF_TABLE.map((r, idx) => {
+        const isActive = idx === closestIdx;
+        return `
+          <tr class="${isActive ? 'active-age-row' : ''}">
+            <td>${r[0]}${isActive ? ' ◀' : ''}</td>
+            <td class="num">${r[2].toFixed(3)}</td>
+            <td class="num">${r[3] !== null ? r[3].toFixed(3) : 'NA'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 11. Event Listeners & Interactions
     // =========================================================================
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -2248,15 +2679,16 @@
         $('tab-' + state.activeTab).classList.add('active');
         $('mobileStickyBar').classList.toggle('hide-bar', state.activeTab !== 'basic');
 
-        // iOS Safari compatible instant scroll reset
         window.scrollTo(0, 0);
         if (state.activeTab === 'moseley') renderMoseleyUI();
         if (state.activeTab === 'regression') computeRegression();
         if (state.activeTab === 'basic') drawCompChart(state.lastCalc);
+        if (state.activeTab === 'height') computeHeightPercentile();
+        if (state.activeTab === 'reference') renderReferenceTable();
       });
     });
 
-    // Dynamic offset scroll jump on mobile
+    // Mobile sticky jump button
     let showingResult = false;
     $('btnMobileJump').addEventListener('click', () => {
       const target = showingResult ? $('inputSection') : $('resultSection');
@@ -2272,7 +2704,7 @@
       $('btnMobileJump').textContent = showingResult ? '입력 수정 ↑' : '결과 보기 ↓';
     }, { passive: true });
 
-    // Hide bottom sticky bar while soft keyboard is open (iOS & Android clean UX)
+    // Hide bottom sticky bar while soft keyboard is open
     let kbBlurTimer = null;
     function isTextEntryElement(el) {
       if (!el) return false;
@@ -2301,7 +2733,7 @@
       }, 150);
     });
 
-    // Segmented controls
+    // Basic Calculator Controls
     $('sexControl').querySelectorAll('.seg-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         $('sexControl').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
@@ -2334,6 +2766,40 @@
     $('moseleySite').addEventListener('change', renderMoseleyUI);
     $('lengthenSlider').addEventListener('input', renderMoseleyUI);
 
+    // Height Percentile Controls
+    $('htSexControl').querySelectorAll('.seg-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        $('htSexControl').querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.htSex = btn.dataset.val;
+        computeHeightPercentile();
+      });
+    });
+
+    ['htYears', 'htMonths', 'htCm'].forEach((id) => {
+      $(id).addEventListener('input', computeHeightPercentile);
+    });
+
+    $('btnSyncFromBasic').addEventListener('click', () => {
+      const c = state.lastCalc;
+      if (!c) return;
+      state.htSex = c.sex;
+      $('htSexControl').querySelectorAll('.seg-btn').forEach(b => b.classList.toggle('active', b.dataset.val === state.htSex));
+      const totalMo = Math.max(0, Math.min(227, Math.round(c.chronoAge * 12)));
+      $('htYears').value = Math.floor(totalMo / 12);
+      $('htMonths').value = totalMo % 12;
+      computeHeightPercentile();
+      showToast('기본 계산기의 성별·연령을 불러왔습니다.');
+    });
+
+    $('btnCopyHeight').addEventListener('click', () => {
+      const h = state.lastHeight;
+      if (!h) return;
+      const txt = `신장 ${fmt(h.height)} cm (${h.sex === 'M' ? '남아' : '여아'} 만 ${h.yrs}세 ${h.mos}개월, 2017 KDCA ${h.pctLabel}, Z=${h.z >= 0 ? '+' : ''}${fmt(h.z, 2)} SD)`;
+      copyToClipboard(txt, '신장 백분위 EMR 문구가 복사되었습니다.');
+    });
+
+    // Presets
     $('preset1').addEventListener('click', () => {
       state.sex = 'M';
       state.etiology = 'congenital';
@@ -2473,13 +2939,6 @@
       showToast(msg);
     }
 
-    // Modals
-    $('btnInfo').addEventListener('click', () => $('infoModal').classList.add('open'));
-    $('btnCloseModal').addEventListener('click', () => $('infoModal').classList.remove('open'));
-    $('infoModal').addEventListener('click', (e) => {
-      if (e.target === $('infoModal')) $('infoModal').classList.remove('open');
-    });
-
     $('btnIosInstall').addEventListener('click', () => $('iosInstallModal').classList.add('open'));
     $('btnCloseIosModal').addEventListener('click', () => $('iosInstallModal').classList.remove('open'));
     $('iosInstallModal').addEventListener('click', (e) => {
@@ -2492,10 +2951,13 @@
         renderMoseleyUI();
         computeRegression();
       }
+      if (state.lastHeight) {
+        drawHeightCurveCanvas(state.lastHeight);
+      }
     });
 
     // =========================================================================
-    // 9. PWA Service Worker, Android Install Prompt & iOS Install Detection
+    // 12. PWA Service Worker, Android Install & iOS Install Detection
     // =========================================================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -2520,7 +2982,6 @@
       $('btnInstall').style.display = 'none';
     });
 
-    // Detect iOS browser (not yet installed to Home Screen) & In-App Browsers
     (function setupIosInstallGuide() {
       const ua = navigator.userAgent || '';
       const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -2529,14 +2990,14 @@
 
       if (isIOS && !isStandalone) {
         $('btnIosInstall').style.display = 'inline-block';
-        if (isInApp) {
-          $('iosInAppWarn').classList.remove('hidden');
-        }
+        if (isInApp) $('iosInAppWarn').classList.remove('hidden');
       }
     })();
 
+    // Init all modules
     computeAll();
     renderRegTable();
+    computeHeightPercentile();
   </script>
 </body>
 </html>

@@ -1,6 +1,4 @@
-const CACHE_NAME = 'lld-calc-pwa-v1.2.0';
-const CACHE_NAME = 'lld-calc-pwa-v1.1.0';
-const CACHE_NAME = 'lld-calc-pwa-v1.0.0';
+const CACHE_NAME = 'lld-calc-pwa-v1.3.0';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
