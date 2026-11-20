@@ -42,7 +42,14 @@
       --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
@@ -53,14 +60,16 @@
       padding-bottom: env(safe-area-inset-bottom, 24px);
     }
 
+    button, input, select { touch-action: manipulation; }
+
     /* Header */
     .app-header {
       background: var(--navy);
       color: #fff;
-      padding: calc(14px + env(safe-area-inset-top, 0px)) 20px 14px;
+      padding: calc(12px + env(safe-area-inset-top, 0px)) 20px 12px;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 60;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18);
     }
     .header-inner {
@@ -76,6 +85,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 0;
     }
     .brand-icon {
       width: 34px;
@@ -94,6 +104,9 @@
       font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .brand-sub {
       font-size: 11.5px;
@@ -124,6 +137,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s;
+      white-space: nowrap;
     }
     .hdr-btn:hover { background: rgba(255, 255, 255, 0.22); }
     .hdr-btn.install-btn {
@@ -137,6 +151,9 @@
     .nav-wrap {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 58px;
+      z-index: 50;
     }
     .nav-tabs {
       max-width: 1200px;
@@ -144,10 +161,7 @@
       padding: 0 20px;
       display: flex;
       gap: 6px;
-      overflow-x: auto;
-      scrollbar-width: none;
     }
-    .nav-tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: none;
       border: none;
@@ -166,6 +180,17 @@
       border-bottom-color: var(--primary);
     }
 
+    /* Mobile-only constant strip */
+    .mobile-const-strip {
+      display: none;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      padding: 5px 10px;
+    }
+
     /* Main Container */
     .container {
       max-width: 1200px;
@@ -181,9 +206,6 @@
       grid-template-columns: 360px 1fr;
       gap: 18px;
       align-items: start;
-    }
-    @media (max-width: 960px) {
-      .main-grid { grid-template-columns: 1fr; }
     }
 
     /* Cards */
@@ -224,9 +246,9 @@
       margin-bottom: 14px;
     }
     .chip-btn {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 5px 10px;
+      padding: 6px 11px;
       border-radius: 999px;
       border: 1px solid var(--border-strong);
       background: var(--surface-alt);
@@ -256,6 +278,29 @@
       align-items: center;
     }
 
+    /* Collapsible Optional Foot Height */
+    details.opt-details summary {
+      list-style: none;
+      cursor: pointer;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      user-select: none;
+    }
+    details.opt-details summary::-webkit-details-marker { display: none; }
+    details.opt-details summary::after {
+      content: "열기 ▾";
+      font-size: 11.5px;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+    details.opt-details[open] summary::after { content: "접기 ▴"; }
+    details.opt-details .opt-body { margin-top: 10px; }
+
     .seg-control {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -269,7 +314,7 @@
     .seg-btn {
       border: none;
       background: transparent;
-      padding: 7px 8px;
+      padding: 8px 8px;
       border-radius: 7px;
       font-size: 13px;
       font-weight: 600;
@@ -303,7 +348,7 @@
     }
     .input-unit input, select {
       width: 100%;
-      padding: 8px 34px 8px 10px;
+      padding: 9px 34px 9px 10px;
       border: 1px solid var(--border-strong);
       border-radius: 8px;
       font-size: 14px;
@@ -344,8 +389,8 @@
     }
     .toggle-label input {
       accent-color: var(--primary);
-      width: 15px;
-      height: 15px;
+      width: 16px;
+      height: 16px;
       cursor: pointer;
     }
 
@@ -356,9 +401,6 @@
       gap: 12px;
       margin-bottom: 16px;
     }
-    @media (max-width: 560px) {
-      .kpi-grid { grid-template-columns: 1fr; }
-    }
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -366,6 +408,7 @@
       padding: 14px 16px;
       box-shadow: var(--shadow);
       transition: all 0.2s;
+      min-width: 0;
     }
     .kpi-label {
       font-size: 12px;
@@ -374,7 +417,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
       margin-bottom: 6px;
+      flex-wrap: wrap;
     }
     .kpi-val {
       font-size: 26px;
@@ -387,6 +432,7 @@
       font-size: 11.5px;
       color: var(--text-light);
       margin-top: 4px;
+      word-break: keep-all;
     }
 
     /* Emphasized Prediction Cards (Bottom 2) */
@@ -401,13 +447,13 @@
       color: #ffffff;
     }
     .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-label {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.92);
     }
     .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-val {
       color: #ffffff;
     }
     .kpi-grid.highlight-preds .kpi-card.pred-card .kpi-sub {
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.86);
     }
     .kpi-grid.highlight-preds .kpi-card.pred-card .pill {
       background: rgba(255, 255, 255, 0.2);
@@ -431,7 +477,7 @@
     .pill-red { background: var(--red-light); color: var(--red); border-color: #fecaca; }
     .pill-blue { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
 
-    /* Tables */
+    /* Tables (Desktop Default) */
     .table-wrap {
       width: 100%;
       overflow-x: auto;
@@ -479,6 +525,7 @@
     .slider-row input[type="range"] {
       flex: 1;
       min-width: 140px;
+      height: 28px;
       accent-color: var(--primary);
       cursor: pointer;
     }
@@ -510,17 +557,11 @@
       color: #fff;
     }
     .btn-primary:hover { background: var(--primary-dark); }
-    .btn-navy {
-      background: var(--navy);
-      border-color: var(--navy);
-      color: #fff;
-    }
-    .btn-navy:hover { background: var(--navy-soft); }
-    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn-sm { padding: 6px 11px; font-size: 12px; }
     .btn-danger { color: var(--red); border-color: #fecaca; background: #fff; }
     .btn-danger:hover { background: var(--red-light); }
 
-    /* Canvas Wrapper */
+    /* Canvas Wrapper & HTML Legend */
     .canvas-box {
       width: 100%;
       position: relative;
@@ -533,6 +574,26 @@
       width: 100%;
       display: block;
     }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-bottom: 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #334155;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 3.5px;
+      border-radius: 2px;
+      display: inline-block;
+    }
 
     /* Alert / Notice */
     .alert {
@@ -543,7 +604,6 @@
       border: 1px solid;
     }
     .alert-amber { background: var(--amber-light); border-color: #fde68a; color: #92400e; }
-    .alert-blue { background: var(--blue-light); border-color: #bfdbfe; color: #1e40af; }
     .alert-green { background: var(--green-light); border-color: #a7f3d0; color: #065f46; }
 
     /* EMR Compact Table */
@@ -553,11 +613,17 @@
     /* Multi-measurement editable table */
     .reg-input {
       width: 82px;
-      padding: 5px 7px;
+      padding: 6px 8px;
       border: 1px solid var(--border-strong);
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 600;
+      background: #fff;
+    }
+
+    /* Mobile Sticky Bottom Result Bar (Hidden on PC) */
+    .mobile-sticky-bar {
+      display: none;
     }
 
     /* Footer Disclaimer */
@@ -580,7 +646,7 @@
       align-items: center;
       justify-content: center;
       padding: 16px;
-      z-index: 100;
+      z-index: 120;
     }
     .modal-backdrop.open { display: flex; }
     .modal {
@@ -600,7 +666,7 @@
     /* Toast */
     .toast {
       position: fixed;
-      bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
       left: 50%;
       transform: translateX(-50%) translateY(20px);
       background: var(--navy);
@@ -613,11 +679,241 @@
       pointer-events: none;
       transition: all 0.22s;
       z-index: 200;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     .hidden { display: none !important; }
+
+    /* =========================================================================
+       TABLET & MOBILE RESPONSIVE OPTIMIZATION (PC 화면 영향 없음)
+       ========================================================================= */
+    @media (max-width: 960px) {
+      .main-grid { grid-template-columns: 1fr; gap: 12px; }
+      .const-badge { display: none; }
+      .mobile-const-strip { display: block; }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* Compact single-row mobile header */
+      .app-header {
+        padding: calc(10px + env(safe-area-inset-top, 0px)) 12px 10px;
+      }
+      .header-inner {
+        flex-wrap: nowrap;
+        gap: 8px;
+      }
+      .brand-icon { width: 30px; height: 30px; font-size: 11.5px; }
+      .brand h1 { font-size: 15px; }
+      .brand-sub { display: none; }
+      .header-actions { gap: 5px; flex-wrap: nowrap; flex-shrink: 0; }
+      .hdr-btn { padding: 6px 9px; font-size: 11.5px; }
+
+      /* Equal 3-column mobile tab bar */
+      .nav-wrap { top: calc(50px + env(safe-area-inset-top, 0px)); }
+      .nav-tabs { padding: 0; gap: 0; }
+      .tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 11px 4px;
+        font-size: 12.5px;
+        letter-spacing: -0.3px;
+      }
+
+      .container {
+        margin: 12px auto 16px;
+        padding: 0 10px;
+      }
+      .card {
+        padding: 14px 13px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+      }
+      .card-header { margin-bottom: 11px; gap: 8px; }
+      .card-title { font-size: 14.5px; }
+
+      /* Better Android touch targets & prevent font zoom */
+      .input-unit input, select {
+        font-size: 16px;
+        padding: 10px 32px 10px 10px;
+        min-height: 44px;
+      }
+      .seg-btn {
+        padding: 10px 6px;
+        font-size: 12.5px;
+        min-height: 40px;
+      }
+      .chip-btn {
+        flex: 1;
+        text-align: center;
+        padding: 8px 8px;
+        font-size: 11.5px;
+      }
+      .btn { min-height: 38px; }
+
+      /* Keep 2x2 KPI layout crisp on mobile phones */
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .kpi-card {
+        padding: 11px 11px;
+        border-radius: 11px;
+      }
+      .kpi-label {
+        font-size: 11px;
+        margin-bottom: 4px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+      }
+      .kpi-val {
+        font-size: 21px;
+        letter-spacing: -0.5px;
+      }
+      .kpi-sub {
+        font-size: 10.5px;
+        line-height: 1.35;
+      }
+      .pill { font-size: 10px; padding: 2px 6px; }
+
+      /* Convert Desktop Tables into Zero-Scroll Mobile Cards */
+      .table-wrap.mobile-cards {
+        border: none;
+        overflow: visible;
+        border-radius: 0;
+      }
+      .table-wrap.mobile-cards table {
+        min-width: 0;
+      }
+      .table-wrap.mobile-cards thead {
+        display: none;
+      }
+      .table-wrap.mobile-cards tbody,
+      .table-wrap.mobile-cards tr,
+      .table-wrap.mobile-cards td {
+        display: block;
+        width: 100%;
+      }
+      .table-wrap.mobile-cards tr {
+        background: var(--surface-alt);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 9px;
+      }
+      .table-wrap.mobile-cards tr:last-child { margin-bottom: 0; }
+      .table-wrap.mobile-cards td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 0;
+        border-bottom: 1px dashed #e2e8f0;
+        font-size: 12.5px;
+        text-align: right;
+      }
+      .table-wrap.mobile-cards td:last-child { border-bottom: none; padding-bottom: 0; }
+      .table-wrap.mobile-cards td::before {
+        content: attr(data-label);
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-align: left;
+        flex-shrink: 0;
+      }
+      .table-wrap.mobile-cards td.card-row-head {
+        display: block;
+        text-align: left;
+        padding: 0 0 7px 0;
+        margin-bottom: 4px;
+        border-bottom: 1px solid var(--border);
+      }
+      .table-wrap.mobile-cards td.card-row-head::before { display: none; }
+
+      /* Mobile EMR stacked table */
+      .emr-table, .emr-table tbody, .emr-table tr, .emr-table th, .emr-table td {
+        display: block;
+        width: 100%;
+        min-width: 0;
+      }
+      .emr-table th {
+        width: 100%;
+        padding: 8px 11px 4px;
+        border-bottom: none;
+        font-size: 12px;
+        color: var(--primary-dark);
+      }
+      .emr-table td {
+        padding: 4px 11px 11px;
+        font-size: 13px;
+      }
+
+      /* Mobile Regression Card Inputs */
+      .reg-input {
+        width: 100%;
+        max-width: 110px;
+        font-size: 15px;
+        padding: 7px 8px;
+        text-align: right;
+      }
+
+      /* Mobile Sticky Bottom Result Bar */
+      .mobile-sticky-bar {
+        display: flex;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(15, 23, 42, 0.96);
+        backdrop-filter: blur(8px);
+        color: #fff;
+        padding: 9px 12px calc(9px + env(safe-area-inset-bottom, 0px));
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        z-index: 90;
+        box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.22);
+      }
+      .mobile-sticky-bar.hide-bar { display: none; }
+      .msb-metrics {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        min-width: 0;
+      }
+      .msb-item {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+      }
+      .msb-lbl { font-size: 10px; color: #94a3b8; font-weight: 600; }
+      .msb-num { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+      .msb-num.teal { color: #2dd4bf; }
+      .msb-num.blue { color: #60a5fa; }
+      .msb-jump {
+        background: #14b8a6;
+        color: #042f2e;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .toast {
+        bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+      }
+    }
   </style>
 </head>
 <body>
@@ -625,16 +921,16 @@
     <div class="header-inner">
       <div class="brand">
         <div class="brand-icon">LLD</div>
-        <div>
-          <h1>소아 하지부동(LLD) 성장 계산기</h1>
+        <div style="min-width:0;">
+          <h1>소아 하지부동 계산기</h1>
           <div class="brand-sub">Multiplier · White-Menelaus · Moseley · 다회계측 회귀분석</div>
         </div>
       </div>
       <div class="header-actions">
         <span class="const-badge">대퇴 원위 9 mm/yr · 경골 근위 6 mm/yr · 성숙기 남16 / 여14세</span>
         <button class="hdr-btn install-btn" id="btnInstall">앱 설치</button>
-        <button class="hdr-btn" id="btnReset">새 환자 초기화</button>
-        <button class="hdr-btn" id="btnInfo">공식·면책</button>
+        <button class="hdr-btn" id="btnReset">초기화</button>
+        <button class="hdr-btn" id="btnInfo">공식</button>
       </div>
     </div>
   </header>
@@ -642,17 +938,19 @@
   <nav class="nav-wrap">
     <div class="nav-tabs" role="tablist">
       <button class="tab-btn active" data-tab="basic">기본 계산기</button>
-      <button class="tab-btn" data-tab="moseley">Moseley 직선 그래프</button>
-      <button class="tab-btn" data-tab="regression">다회계측 회귀분석</button>
+      <button class="tab-btn" data-tab="moseley">Moseley 그래프</button>
+      <button class="tab-btn" data-tab="regression">다회계측 회귀</button>
     </div>
   </nav>
+
+  <div class="mobile-const-strip">대퇴 원위 9 mm/yr · 경골 근위 6 mm/yr · 성숙기 남16 / 여14세</div>
 
   <main class="container">
     <!-- ==================== TAB 1: 기본 계산기 ==================== -->
     <section class="tab-panel active" id="tab-basic">
       <div class="main-grid">
         <!-- Left Input Panel -->
-        <div>
+        <div id="inputSection">
           <div class="card">
             <div class="card-header">
               <div class="card-title">환자 및 계측 입력</div>
@@ -660,8 +958,8 @@
             </div>
 
             <div class="preset-row">
-              <button class="chip-btn" id="preset1">예제 1: 12세 남 (선천성)</button>
-              <button class="chip-btn" id="preset2">예제 2: 8.5세 여 (후천성 2회)</button>
+              <button class="chip-btn" id="preset1">예제1: 12세 남(선천)</button>
+              <button class="chip-btn" id="preset2">예제2: 8.5세 여(후천)</button>
             </div>
 
             <!-- Basic Info -->
@@ -672,8 +970,8 @@
                 <button class="seg-btn" data-val="F">여아 (성숙 14세)</button>
               </div>
               <div class="seg-control" id="etiologyControl">
-                <button class="seg-btn active" data-val="congenital">선천성 (1회 계측)</button>
-                <button class="seg-btn" data-val="acquired">후천성/발달성 (2회 계측)</button>
+                <button class="seg-btn active" data-val="congenital">선천성 (1회)</button>
+                <button class="seg-btn" data-val="acquired">후천/발달성 (2회)</button>
               </div>
             </div>
 
@@ -684,19 +982,19 @@
                 <div class="field">
                   <label for="chronoAge">역연령 (Chronologic)</label>
                   <div class="input-unit">
-                    <input type="number" id="chronoAge" step="0.1" min="0" max="17" value="12.0" />
+                    <input type="number" inputmode="decimal" id="chronoAge" step="0.1" min="0" max="17" value="12.0" />
                     <span class="unit-tag">세</span>
                   </div>
                 </div>
                 <div class="field">
                   <label for="boneAge">골연령 (선택, G-P)</label>
                   <div class="input-unit">
-                    <input type="number" id="boneAge" step="0.1" min="0" max="17" placeholder="미입력시 역연령" />
+                    <input type="number" inputmode="decimal" id="boneAge" step="0.1" min="0" max="17" placeholder="미입력=역연령" />
                     <span class="unit-tag">세</span>
                   </div>
                 </div>
               </div>
-              <div class="hint" id="ageHint">Multiplier는 역연령, White-Menelaus는 골연령(미입력 시 역연령) 우선 적용</div>
+              <div class="hint" id="ageHint">Multiplier는 역연령, White-Menelaus는 골연령 우선 적용</div>
             </div>
 
             <!-- Current Scanogram -->
@@ -706,53 +1004,57 @@
                 <div class="field">
                   <label for="femNorm">건측 대퇴골</label>
                   <div class="input-unit">
-                    <input type="number" id="femNorm" step="0.1" min="5" max="70" value="40.5" />
+                    <input type="number" inputmode="decimal" id="femNorm" step="0.1" min="5" max="70" value="40.5" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
                 <div class="field">
                   <label for="femShort">환측 대퇴골</label>
                   <div class="input-unit">
-                    <input type="number" id="femShort" step="0.1" min="5" max="70" value="39.0" />
+                    <input type="number" inputmode="decimal" id="femShort" step="0.1" min="5" max="70" value="39.0" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
                 <div class="field">
                   <label for="tibNorm">건측 경골</label>
                   <div class="input-unit">
-                    <input type="number" id="tibNorm" step="0.1" min="5" max="60" value="33.5" />
+                    <input type="number" inputmode="decimal" id="tibNorm" step="0.1" min="5" max="60" value="33.5" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
                 <div class="field">
                   <label for="tibShort">환측 경골</label>
                   <div class="input-unit">
-                    <input type="number" id="tibShort" step="0.1" min="5" max="60" value="32.4" />
+                    <input type="number" inputmode="decimal" id="tibShort" step="0.1" min="5" max="60" value="32.4" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Foot height -->
+            <!-- Optional Foot Height (Collapsible for clean mobile view) -->
             <div class="form-section">
-              <div class="section-label"><span>발 높이 (Foot Height, 선택)</span></div>
-              <div class="input-grid-2">
-                <div class="field">
-                  <label for="footNorm">건측 발 높이</label>
-                  <div class="input-unit">
-                    <input type="number" id="footNorm" step="0.1" min="0" max="15" value="0.0" />
-                    <span class="unit-tag">cm</span>
+              <details class="opt-details" id="footDetails">
+                <summary>발 높이 입력 (Foot Height, 선택)</summary>
+                <div class="opt-body">
+                  <div class="input-grid-2" style="margin-bottom:0;">
+                    <div class="field">
+                      <label for="footNorm">건측 발 높이</label>
+                      <div class="input-unit">
+                        <input type="number" inputmode="decimal" id="footNorm" step="0.1" min="0" max="15" value="0.0" />
+                        <span class="unit-tag">cm</span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="footShort">환측 발 높이</label>
+                      <div class="input-unit">
+                        <input type="number" inputmode="decimal" id="footShort" step="0.1" min="0" max="15" value="0.0" />
+                        <span class="unit-tag">cm</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <label for="footShort">환측 발 높이</label>
-                  <div class="input-unit">
-                    <input type="number" id="footShort" step="0.1" min="0" max="15" value="0.0" />
-                    <span class="unit-tag">cm</span>
-                  </div>
-                </div>
-              </div>
+              </details>
             </div>
 
             <!-- Previous Visit (Acquired only) -->
@@ -764,28 +1066,28 @@
                 <div class="field">
                   <label for="prevInterval">경과 기간</label>
                   <div class="input-unit">
-                    <input type="number" id="prevInterval" step="0.1" min="0.25" max="10" value="1.0" />
+                    <input type="number" inputmode="decimal" id="prevInterval" step="0.1" min="0.25" max="10" value="1.0" />
                     <span class="unit-tag">년</span>
                   </div>
                 </div>
                 <div class="field">
                   <label for="prevFootDiff">이전 발높이 차</label>
                   <div class="input-unit">
-                    <input type="number" id="prevFootDiff" step="0.1" min="0" max="10" value="0.0" />
+                    <input type="number" inputmode="decimal" id="prevFootDiff" step="0.1" min="0" max="10" value="0.0" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
                 <div class="field">
-                  <label for="prevNorm">이전 건측 합계(대퇴+경골)</label>
+                  <label for="prevNorm">이전 건측 합계</label>
                   <div class="input-unit">
-                    <input type="number" id="prevNorm" step="0.1" min="10" max="120" value="58.0" />
+                    <input type="number" inputmode="decimal" id="prevNorm" step="0.1" min="10" max="120" value="58.0" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
                 <div class="field">
-                  <label for="prevShort">이전 환측 합계(대퇴+경골)</label>
+                  <label for="prevShort">이전 환측 합계</label>
                   <div class="input-unit">
-                    <input type="number" id="prevShort" step="0.1" min="10" max="120" value="56.4" />
+                    <input type="number" inputmode="decimal" id="prevShort" step="0.1" min="10" max="120" value="56.4" />
                     <span class="unit-tag">cm</span>
                   </div>
                 </div>
@@ -796,13 +1098,13 @@
         </div>
 
         <!-- Right Result Panel -->
-        <div>
+        <div id="resultSection">
           <!-- KPI Header Control -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-            <span style="font-size:13px; font-weight:700; color:var(--text-muted);" id="patientMeta">남아 · 역연령 12.0세 · 선천성</span>
+            <span style="font-size:12.5px; font-weight:700; color:var(--text-muted);" id="patientMeta">남아 · 역연령 12.0세 · 선천성</span>
             <label class="toggle-label">
               <input type="checkbox" id="toggleHighlight" checked />
-              예측 결과 강조 배경
+              예측 강조 배경
             </label>
           </div>
 
@@ -815,7 +1117,7 @@
                 <span class="pill pill-neutral" id="kpiCurrTag">Scanogram</span>
               </div>
               <div class="kpi-val" id="kpiCurrVal">2.6 cm</div>
-              <div class="kpi-sub" id="kpiCurrSub">대퇴 1.5 cm · 경골 1.1 cm</div>
+              <div class="kpi-sub" id="kpiCurrSub">대퇴 1.5 · 경골 1.1 cm</div>
             </div>
 
             <div class="kpi-card">
@@ -824,26 +1126,26 @@
                 <span class="pill pill-neutral" id="kpiGirTag">선천성 비례</span>
               </div>
               <div class="kpi-val" id="kpiGirVal">3.5%</div>
-              <div class="kpi-sub" id="kpiGirSub">Multiplier M = 1.170 · 잔여성장 12.6 cm</div>
+              <div class="kpi-sub" id="kpiGirSub">M = 1.170 · 잔여성장 12.6 cm</div>
             </div>
 
             <!-- Bottom Row (Emphasized) -->
             <div class="kpi-card pred-card pred-multiplier">
               <div class="kpi-label">
                 <span>Multiplier 최종 예측</span>
-                <span class="pill" id="kpiMultBadge">수술 고려</span>
+                <span class="pill" id="kpiMultBadge">유합술 고려</span>
               </div>
               <div class="kpi-val" id="kpiMultVal">3.0 cm</div>
-              <div class="kpi-sub" id="kpiMultSub">예측 성숙 건측 86.6 cm (M=1.170)</div>
+              <div class="kpi-sub" id="kpiMultSub">성숙 건측 86.6 cm (M=1.170)</div>
             </div>
 
             <div class="kpi-card pred-card pred-wm">
               <div class="kpi-label">
-                <span>White-Menelaus 최종 예측</span>
+                <span>White-Menelaus 예측</span>
                 <span class="pill" id="kpiWmBadge">잔여 4.0년</span>
               </div>
               <div class="kpi-val" id="kpiWmVal">2.9 cm</div>
-              <div class="kpi-sub" id="kpiWmSub">추정 GIR 0.08 cm/yr × 4.0년</div>
+              <div class="kpi-sub" id="kpiWmSub">GIR 0.08 cm/yr × 4.0년</div>
             </div>
           </div>
 
@@ -860,23 +1162,23 @@
             </div>
           </div>
 
-          <!-- Surgical Timing Simulator (Table) -->
+          <!-- Surgical Timing Simulator (Table on PC, Cards on Mobile) -->
           <div class="card">
             <div class="card-header">
               <div>
                 <div class="card-title">골단유합술 시기 시뮬레이터</div>
-                <div class="card-sub">목표 잔여 부동량 기준 분절별 최적 수술 연령 역산</div>
+                <div class="card-sub">목표 잔여 부동량 기준 분절별 최적 수술 연령</div>
               </div>
               <span class="pill pill-blue" id="simCorrBadge">교정 목표: 3.0 cm</span>
             </div>
 
             <div class="slider-row">
-              <label for="targetResidual">목표 최종 잔여 부동량</label>
+              <label for="targetResidual">목표 최종 잔여 부동</label>
               <input type="range" id="targetResidual" min="0" max="2.0" step="0.1" value="0.0" />
               <span class="slider-val" id="targetResidualVal">0.0 cm</span>
             </div>
 
-            <div class="table-wrap">
+            <div class="table-wrap mobile-cards">
               <table>
                 <thead>
                   <tr>
@@ -921,10 +1223,10 @@
         <div class="card-header">
           <div>
             <div class="card-title">Moseley 직선 그래프 &amp; 수술 시뮬레이터</div>
-            <div class="card-sub">정상 다리(45°) 대비 환측 성장선, 골단유합술 기준 기울기(37% / 28% / 65%) 및 하지 연장술 수직 상승 시뮬레이션</div>
+            <div class="card-sub">건측(45°) 대비 환측 성장선, 유합술 기울기(37% / 28% / 65%) 및 연장술 시뮬레이션</div>
           </div>
-          <div class="btn-row">
-            <select id="moseleySite" style="width:auto; padding:6px 10px; font-size:12.5px;">
+          <div class="btn-row" style="width:auto;">
+            <select id="moseleySite" style="width:auto; padding:8px 10px; font-size:13px; min-height:38px;">
               <option value="both">동시 유합술 (65% 억제)</option>
               <option value="femur">대퇴 원위부 단독 (37% 억제)</option>
               <option value="tibia">경골 근위부 단독 (28% 억제)</option>
@@ -933,16 +1235,17 @@
         </div>
 
         <div class="slider-row">
-          <label for="lengthenSlider">하지 연장술 시뮬레이션 (Sharp Vertical Rise)</label>
+          <label for="lengthenSlider">하지 연장술 (Sharp Vertical Rise)</label>
           <input type="range" id="lengthenSlider" min="0" max="8.0" step="0.5" value="0.0" />
           <span class="slider-val" id="lengthenVal">+0.0 cm</span>
         </div>
 
         <div class="canvas-box">
-          <canvas id="moseleyChart" height="390"></canvas>
+          <div class="chart-legend" id="moseleyLegend"></div>
+          <canvas id="moseleyChart" height="360"></canvas>
         </div>
 
-        <div class="table-wrap" style="margin-top:14px;">
+        <div class="table-wrap mobile-cards" style="margin-top:14px;">
           <table>
             <thead>
               <tr>
@@ -965,15 +1268,15 @@
         <div class="card-header">
           <div>
             <div class="card-title">다회계측 선형 회귀분석 (OLS)</div>
-            <div class="card-sub">3회 이상 추시 계측 데이터로 연간 성장 억제율(GIR), 성장 억제비(I), 선형성(R²) 산출</div>
+            <div class="card-sub">3회 이상 추시 계측으로 GIR, 성장 억제비(I), 선형성(R²) 산출</div>
           </div>
           <div class="btn-row">
-            <button class="btn btn-sm" id="btnAddRow">+ 계측 행 추가</button>
-            <button class="btn btn-primary btn-sm" id="btnSyncBasic">기본 계산기 · Moseley에 연동</button>
+            <button class="btn btn-sm" id="btnAddRow">+ 계측 추가</button>
+            <button class="btn btn-primary btn-sm" id="btnSyncBasic">기본·Moseley 연동</button>
           </div>
         </div>
 
-        <div class="table-wrap" style="margin-bottom:14px;">
+        <div class="table-wrap mobile-cards" style="margin-bottom:14px;">
           <table>
             <thead>
               <tr>
@@ -991,30 +1294,45 @@
 
         <div class="kpi-grid" style="margin-bottom:12px;">
           <div class="kpi-card">
-            <div class="kpi-label"><span>회귀 연간 성장 억제율 (GIR)</span><span class="pill pill-blue" id="regR2Pill">R² = 0.99</span></div>
+            <div class="kpi-label"><span>회귀 GIR</span><span class="pill pill-blue" id="regR2Pill">R² = 0.99</span></div>
             <div class="kpi-val" id="regGirVal">0.24 cm/yr</div>
-            <div class="kpi-sub" id="regEqSub">회귀식: Δ = 0.24 × Age - 0.10</div>
+            <div class="kpi-sub" id="regEqSub">Δ = 0.24 × Age - 0.10</div>
           </div>
           <div class="kpi-card">
-            <div class="kpi-label"><span>성장 억제비 (I) / 성숙 예측</span><span class="pill pill-neutral" id="regSexTag">남아 16세 기준</span></div>
+            <div class="kpi-label"><span>성숙 예측 / 억제비</span><span class="pill pill-neutral" id="regSexTag">남아 16세</span></div>
             <div class="kpi-val" id="regPredVal">3.7 cm</div>
-            <div class="kpi-sub" id="regISub">성장 억제비 I = 10.2% (건측 대비 환측)</div>
+            <div class="kpi-sub" id="regISub">성장 억제비 I = 10.2%</div>
           </div>
         </div>
 
         <div id="regAlertBox"></div>
 
         <div class="canvas-box" style="margin-top:12px;">
-          <canvas id="regChart" height="270"></canvas>
+          <canvas id="regChart" height="250"></canvas>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer-note">
-    본 도구는 문헌 공식을 기반으로 한 학술·임상 참고용 계산기이며, 의료기기가 아닙니다. 최종 진단 및 수술 시기 결정은 담당 의료진의 종합적인 임상 판단에 따릅니다.<br />
-    입력된 계측 수치는 서버나 브라우저 저장소에 기록되지 않으며, 새로고침 또는 초기화 시 즉시 삭제됩니다.
+    본 도구는 문헌 공식 기반의 학술·임상 참고용 계산기이며 의료기기가 아닙니다. 최종 판단은 담당 의료진에게 있습니다.<br />
+    입력된 수치는 서버나 브라우저 저장소에 기록되지 않으며, 새로고침 또는 초기화 시 즉시 삭제됩니다.
   </footer>
+
+  <!-- Mobile Sticky Live Summary Bar -->
+  <div class="mobile-sticky-bar" id="mobileStickyBar">
+    <div class="msb-metrics">
+      <div class="msb-item">
+        <span class="msb-lbl">Multiplier</span>
+        <span class="msb-num teal" id="msbMult">3.0 cm</span>
+      </div>
+      <div class="msb-item">
+        <span class="msb-lbl">White-Menelaus</span>
+        <span class="msb-num blue" id="msbWm">2.9 cm</span>
+      </div>
+    </div>
+    <button class="msb-jump" id="btnMobileJump">결과 보기 ↓</button>
+  </div>
 
   <!-- Info & Disclaimer Modal -->
   <div class="modal-backdrop" id="infoModal">
@@ -1028,7 +1346,6 @@
         <li><strong>White-Menelaus 상수:</strong> 대퇴 원위부 9 mm/yr, 경골 근위부 6 mm/yr, 동시 유합 15 mm/yr. 성장 완료 연령 남아 16세, 여아 14세 기준.</li>
         <li><strong>Moseley 기준 기울기:</strong> 대퇴 원위부 37%, 경골 근위부 28%, 슬관절 주변 동시 유합 65% 억제 반영.</li>
         <li><strong>데이터 보안:</strong> 모든 연산은 기기 내 메모리에서만 실행되며 외부 서버 전송이나 로컬 저장을 수행하지 않습니다.</li>
-        <li><strong>스마트폰 앱 설치 방법:</strong> 아이폰(Safari 하단 공유 버튼 → '홈 화면에 추가'), 안드로이드(Chrome 메뉴 → '앱 설치'), PC(Chrome/Edge 주소창 우측 설치 아이콘).</li>
       </ul>
       <p style="font-size:12px; color:#b45309; background:#fffbeb; padding:10px; border-radius:8px; border:1px solid #fde68a;">
         <strong>임상 검증 권고:</strong> 실제 진료 적용 전 내장된 Multiplier 승수표(0.5세 간격)가 원저 문헌 수치와 일치하는지 교차 검증 후 사용하시기 바랍니다.
@@ -1081,7 +1398,6 @@
       return 1.0;
     }
 
-    // Inverse lookup: given target M_E, return age
     function getAgeFromMultiplier(sex, targetM) {
       const tbl = getTable(sex);
       if (targetM >= tbl[0][1]) return { age: tbl[0][0], outOfRange: 'tooYoung' };
@@ -1104,6 +1420,7 @@
     const state = {
       sex: 'M',
       etiology: 'congenital',
+      activeTab: 'basic',
       regRows: [
         { age: 7.0, norm: 55.0, short: 53.4 },
         { age: 8.5, norm: 61.5, short: 59.5 },
@@ -1161,8 +1478,8 @@
       const tibM = tibNorm * M;
       const remGrowth = currTotalNorm * (M - 1);
 
-      let I = boneNorm > 0 ? currLLD / currTotalNorm : 0; // proportional inhibition for congenital
-      let girCmYr = (currLLD / Math.max(1, currTotalNorm)) * 2.4; // estimated proportional progression (cm/yr)
+      let I = boneNorm > 0 ? currLLD / currTotalNorm : 0;
+      let girCmYr = (currLLD / Math.max(1, currTotalNorm)) * 2.4;
       let prevWarnMsg = '';
       let multPred = currLLD * M;
 
@@ -1192,7 +1509,6 @@
       const targetResidual = parseFloat($('targetResidual').value) || 0;
       const corrNeeded = Math.max(0, multPred - targetResidual);
 
-      // Epiphysiodesis timing rows
       const sites = [
         {
           id: 'femur',
@@ -1236,7 +1552,6 @@
 
         const wmYearsNeeded = corrNeeded / s.wmRate;
         const wmOptAge = maturityAge - wmYearsNeeded;
-
         const remTime = multOptAge !== null ? multOptAge - chronoAge : null;
 
         let status = '계획 가능';
@@ -1274,42 +1589,46 @@
       const c = state.lastCalc;
       $('patientMeta').textContent =
         `${c.sex === 'M' ? '남아' : '여아'} · 역연령 ${fmt(c.chronoAge)}세` +
-        (c.boneAge !== null ? ` (골연령 ${fmt(c.boneAge)}세)` : '') +
-        ` · ${c.etiology === 'congenital' ? '선천성' : '후천성/발달성'}`;
+        (c.boneAge !== null ? ` (골 ${fmt(c.boneAge)}세)` : '') +
+        ` · ${c.etiology === 'congenital' ? '선천성' : '후천성'}`;
 
       $('prevWarn').textContent = c.prevWarnMsg;
       $('prevWarn').style.color = c.prevWarnMsg ? '#dc2626' : '#64748b';
 
-      // KPI 1: Current LLD
+      // KPI 1
       $('kpiCurrTag').textContent = c.footDiff > 0 ? '발높이 포함' : 'Scanogram';
       $('kpiCurrVal').textContent = `${fmt(c.currLLD)} cm`;
       $('kpiCurrSub').textContent =
         `대퇴 ${fmt(Math.max(0, c.femNorm - c.femShort))} · 경골 ${fmt(Math.max(0, c.tibNorm - c.tibShort))}` +
-        (c.footDiff > 0 ? ` · 발높이 ${fmt(c.footDiff)} cm (뼈 단독 ${fmt(c.boneDiff)} cm)` : ' cm');
+        (c.footDiff > 0 ? ` · 발 ${fmt(c.footDiff)} cm` : ' cm');
 
-      // KPI 2: Growth Inhibition
-      $('kpiGirTag').textContent = c.etiology === 'congenital' ? '선천성 비례' : '2회 계측 산출';
+      // KPI 2
+      $('kpiGirTag').textContent = c.etiology === 'congenital' ? '선천성 비례' : '2회 계측';
       $('kpiGirVal').textContent = `${fmt(c.I * 100, 1)}%`;
       $('kpiGirSub').textContent =
-        `M = ${fmt(c.M, 3)} · 건측 잔여성장 ${fmt(c.remGrowth)} cm · GIR ${fmt(c.girCmYr, 2)} cm/yr`;
+        `M=${fmt(c.M, 3)} · 잔여 ${fmt(c.remGrowth)} cm · GIR ${fmt(c.girCmYr, 2)}`;
 
-      // KPI 3: Multiplier Final Prediction
+      // KPI 3
       $('kpiMultVal').textContent = `${fmt(c.multPred)} cm`;
-      $('kpiMultSub').textContent = `예측 성숙 건측 ${fmt(c.Lm)} cm (M = ${fmt(c.M, 3)})`;
+      $('kpiMultSub').textContent = `성숙 건측 ${fmt(c.Lm)} cm (M=${fmt(c.M, 3)})`;
       $('kpiMultBadge').textContent =
         c.multPred < 1.5 ? '경과 관찰' : c.multPred < 2.0 ? '경계 범위' : c.multPred < 5.0 ? '유합술 고려' : '연장술 고려';
 
-      // KPI 4: White-Menelaus Final Prediction
+      // KPI 4
       $('kpiWmVal').textContent = `${fmt(c.wmPred)} cm`;
       $('kpiWmBadge').textContent = `잔여 ${fmt(c.wmRemYears)}년`;
       $('kpiWmSub').textContent =
-        `${c.etiology === 'acquired' ? '계측' : '비례추정'} GIR ${fmt(Math.max(0, c.girCmYr), 2)} cm/yr × ${fmt(c.wmRemYears)}년`;
+        `GIR ${fmt(Math.max(0, c.girCmYr), 2)} cm/yr × ${fmt(c.wmRemYears)}년`;
 
-      // Target Residual Slider
+      // Mobile Sticky Bar update
+      $('msbMult').textContent = `${fmt(c.multPred)} cm`;
+      $('msbWm').textContent = `${fmt(c.wmPred)} cm`;
+
+      // Slider
       $('targetResidualVal').textContent = `${fmt(c.targetResidual)} cm`;
       $('simCorrBadge').textContent = `교정 목표: ${fmt(c.corrNeeded)} cm`;
 
-      // Epiphysiodesis Table
+      // Epiphysiodesis Table (with data-label for mobile cards)
       const tbody = $('epiTableBody');
       tbody.innerHTML = c.epiResults.map((r) => {
         const meStr = r.multFeasible && r.mE ? fmt(r.mE, 3) : '초과';
@@ -1323,12 +1642,12 @@
         }
         return `
           <tr>
-            <td><strong>${r.name}</strong><div style="font-size:11px;color:#64748b;">${r.sub}</div></td>
-            <td class="num">${meStr}</td>
-            <td class="num">${mAgeStr}</td>
-            <td class="num">${wAgeStr}</td>
-            <td class="num">${remStr}</td>
-            <td><span class="pill ${r.pillClass}">${r.status}</span></td>
+            <td class="card-row-head"><strong>${r.name}</strong><div style="font-size:11px;color:#64748b;">${r.sub}</div></td>
+            <td class="num" data-label="Multiplier M_E">${meStr}</td>
+            <td class="num" data-label="Multiplier 최적 연령">${mAgeStr}</td>
+            <td class="num" data-label="White-Menelaus 최적 연령">${wAgeStr}</td>
+            <td class="num" data-label="현재 대비 잔여">${remStr}</td>
+            <td data-label="임상 상태"><span class="pill ${r.pillClass}">${r.status}</span></td>
           </tr>
         `;
       }).join('');
@@ -1340,9 +1659,9 @@
           <th>1. 최종 부동 예측</th>
           <td>
             <strong>Multiplier ${fmt(c.multPred)} cm</strong> / White-Menelaus ${fmt(c.wmPred)} cm
-            <span style="color:#64748b; font-size:12px;">
-              (현재 ${fmt(c.currLLD)} cm${c.footDiff > 0 ? ', 발높이 포함' : ''}, ${c.sex === 'M' ? '남' : '여'} ${fmt(c.chronoAge)}세)
-            </span>
+            <div style="color:#64748b; font-size:12px; margin-top:2px;">
+              현재 ${fmt(c.currLLD)} cm${c.footDiff > 0 ? ' (발높이 포함)' : ''} · ${c.sex === 'M' ? '남' : '여'} ${fmt(c.chronoAge)}세
+            </div>
           </td>
         </tr>
         <tr>
@@ -1375,7 +1694,7 @@
         text: `목표 교정 ${fmt(c.corrNeeded)} cm (잔여목표 ${fmt(c.targetResidual)} cm) | ` + lines.join(' / '),
         html:
           `<div style="margin-bottom:4px;"><strong>교정 목표 ${fmt(c.corrNeeded)} cm</strong> (목표 잔여 ${fmt(c.targetResidual)} cm)</div>` +
-          `<div style="font-size:12.5px; color:#334155; line-height:1.6;">` +
+          `<div style="font-size:12.5px; color:#334155; line-height:1.65;">` +
           `• 대퇴 원위부: <strong>${fem.multFeasible ? fmt(fem.multOptAge) + '세' : '단독 불가'}</strong> <span style="color:#64748b;">(WM ${fem.wmOptAge >= 0 ? fmt(fem.wmOptAge) + '세' : '불가'})</span><br>` +
           `• 경골 근위부: <strong>${tib.multFeasible ? fmt(tib.multOptAge) + '세' : '단독 불가'}</strong> <span style="color:#64748b;">(WM ${tib.wmOptAge >= 0 ? fmt(tib.wmOptAge) + '세' : '불가'})</span><br>` +
           `• 동시 유합술: <strong>${both.multFeasible ? fmt(both.multOptAge) + '세' : '단독 불가'}</strong> <span style="color:#64748b;">(WM ${both.wmOptAge >= 0 ? fmt(both.wmOptAge) + '세' : '불가'})</span>` +
@@ -1384,11 +1703,11 @@
     }
 
     // =========================================================================
-    // 5. Crisp Pure Canvas Charts (Zero CDN Dependency)
+    // 5. Responsive Pure Canvas Charts (PC + Mobile Optimized)
     // =========================================================================
     function setupCanvas(canvas, cssHeight) {
       const dpr = window.devicePixelRatio || 1;
-      const width = canvas.parentElement.clientWidth - 16;
+      const width = Math.max(240, canvas.parentElement.clientWidth - 16);
       canvas.style.width = width + 'px';
       canvas.style.height = cssHeight + 'px';
       canvas.width = Math.round(width * dpr);
@@ -1398,26 +1717,42 @@
       return { ctx, w: width, h: cssHeight };
     }
 
+    function drawRoundedBar(ctx, bx, by, bw, barH, radius) {
+      const br = Math.min(radius, bw / 2, barH / 2);
+      ctx.beginPath();
+      ctx.moveTo(bx, by);
+      ctx.lineTo(bx + bw - br, by);
+      ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
+      ctx.lineTo(bx + bw, by + barH - br);
+      ctx.quadraticCurveTo(bx + bw, by + barH, bx + bw - br, by + barH);
+      ctx.lineTo(bx, by + barH);
+      ctx.closePath();
+      ctx.fill();
+    }
+
     function drawCompChart(c) {
       const canvas = $('compChart');
-      const { ctx, w, h } = setupCanvas(canvas, 190);
+      const parentW = canvas.parentElement.clientWidth;
+      const isNarrow = parentW < 460;
+      const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 206 : 190);
       ctx.clearRect(0, 0, w, h);
-
-      const pad = { l: 132, r: 48, t: 20, b: 30 };
-      const plotW = Math.max(80, w - pad.l - pad.r);
-      const plotH = h - pad.t - pad.b;
 
       const items = [
         { label: '현재 하지부동', val: c.currLLD, color: '#64748b' },
-        { label: 'Multiplier 예측', val: c.multPred, color: '#0d9488' },
-        { label: 'White-Menelaus', val: c.wmPred, color: '#2563eb' }
+        { label: 'Multiplier 최종 예측', val: c.multPred, color: '#0d9488' },
+        { label: 'White-Menelaus 예측', val: c.wmPred, color: '#2563eb' }
       ];
 
       const maxVal = Math.max(4.0, Math.ceil(Math.max(...items.map(i => i.val), 2.0) + 0.8));
+      const pad = isNarrow
+        ? { l: 10, r: 14, t: 22, b: 26 }
+        : { l: 138, r: 52, t: 20, b: 30 };
+      const plotW = Math.max(80, w - pad.l - pad.r);
+      const plotH = h - pad.t - pad.b;
       const xOf = (v) => pad.l + (v / maxVal) * plotW;
 
       // Safe zone (0 ~ 1.5 cm)
-      ctx.fillStyle = 'rgba(16, 185, 129, 0.11)';
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.10)';
       ctx.fillRect(pad.l, pad.t, xOf(1.5) - pad.l, plotH);
 
       // Grid lines
@@ -1434,10 +1769,10 @@
         ctx.moveTo(x, pad.t);
         ctx.lineTo(x, pad.t + plotH);
         ctx.stroke();
-        ctx.fillText(v + ' cm', x, h - 10);
+        ctx.fillText(v + 'cm', x, h - 8);
       }
 
-      // 1.5 cm clinical threshold line
+      // 1.5 cm threshold
       const x15 = xOf(1.5);
       ctx.save();
       ctx.setLineDash([4, 4]);
@@ -1450,41 +1785,54 @@
       ctx.restore();
       ctx.fillStyle = '#059669';
       ctx.font = 'bold 10.5px -apple-system, sans-serif';
-      ctx.fillText('1.5 cm 허용', x15, pad.t - 6);
+      ctx.textAlign = 'center';
+      ctx.fillText('1.5cm 허용', Math.max(pad.l + 30, x15), pad.t - 6);
 
-      // Bars
       const rowH = plotH / items.length;
-      const barH = Math.min(26, rowH * 0.56);
-      items.forEach((it, idx) => {
-        const cy = pad.t + rowH * idx + rowH / 2;
-        const bw = Math.max(2, xOf(it.val) - pad.l);
+      if (isNarrow) {
+        // Mobile: Label & value on top, full-width bar underneath
+        items.forEach((it, idx) => {
+          const topY = pad.t + rowH * idx + 6;
+          const bw = Math.max(3, xOf(it.val) - pad.l);
 
-        // Label
-        ctx.fillStyle = '#1e293b';
-        ctx.font = 'bold 12px -apple-system, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(it.label, pad.l - 12, cy);
+          ctx.textBaseline = 'top';
+          ctx.fillStyle = '#1e293b';
+          ctx.font = 'bold 12px -apple-system, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(it.label, pad.l, topY);
 
-        // Bar rounded (cross-browser safe)
-        ctx.fillStyle = it.color;
-        const bx = pad.l, by = cy - barH / 2, br = Math.min(6, bw / 2, barH / 2);
-        ctx.beginPath();
-        ctx.moveTo(bx, by);
-        ctx.lineTo(bx + bw - br, by);
-        ctx.quadraticCurveTo(bx + bw, by, bx + bw, by + br);
-        ctx.lineTo(bx + bw, by + barH - br);
-        ctx.quadraticCurveTo(bx + bw, by + barH, bx + bw - br, by + barH);
-        ctx.lineTo(bx, by + barH);
-        ctx.closePath();
-        ctx.fill();
+          ctx.fillStyle = it.color;
+          ctx.textAlign = 'right';
+          ctx.fillText(`${fmt(it.val)} cm`, pad.l + plotW, topY);
 
-        // Value text
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 12px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText(`${fmt(it.val)} cm`, pad.l + bw + 7, cy);
-      });
+          ctx.fillStyle = '#e2e8f0';
+          drawRoundedBar(ctx, pad.l, topY + 18, plotW, 18, 5);
+
+          ctx.fillStyle = it.color;
+          drawRoundedBar(ctx, pad.l, topY + 18, bw, 18, 5);
+        });
+      } else {
+        // Desktop: Side-by-side labels and bars
+        const barH = Math.min(26, rowH * 0.56);
+        items.forEach((it, idx) => {
+          const cy = pad.t + rowH * idx + rowH / 2;
+          const bw = Math.max(3, xOf(it.val) - pad.l);
+
+          ctx.fillStyle = '#1e293b';
+          ctx.font = 'bold 12px -apple-system, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(it.label, pad.l - 12, cy);
+
+          ctx.fillStyle = it.color;
+          drawRoundedBar(ctx, pad.l, cy - barH / 2, bw, barH, 6);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 12px -apple-system, sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText(`${fmt(it.val)} cm`, pad.l + bw + 8, cy);
+        });
+      }
     }
 
     // =========================================================================
@@ -1496,13 +1844,12 @@
 
       const site = $('moseleySite').value;
       const slopeMap = { femur: 0.37, tibia: 0.28, both: 0.65 };
-      const k = slopeMap[site]; // growth inhibition fraction of normal leg after epiphysiodesis
-      const postSlope = 1 - k;  // new normal leg slope relative to X-axis (Normal growth scalar)
+      const k = slopeMap[site];
+      const postSlope = 1 - k;
 
       const lengthen = parseFloat($('lengthenSlider').value) || 0;
       $('lengthenVal').textContent = `+${fmt(lengthen)} cm`;
 
-      // Short leg line: passes through (currTotalNorm, currTotalShort) with slope (1 - I)
       const shortSlope = Math.max(0.2, 1 - c.I);
       const Lm = c.Lm;
       const Lcurr = c.currTotalNorm;
@@ -1513,11 +1860,6 @@
       const lldNoOp = Math.max(0, Lm - S_mat_noOp);
       const lldWithLen = Lm - S_mat_len;
 
-      // Epiphysiodesis intersection:
-      // After surgery at L_op, normal leg rises with slope (1 - k):
-      // N_final = L_op + (1 - k) * (Lm - L_op) = k * L_op + (1 - k) * Lm
-      // Set N_final = S_mat_len => k * L_op = S_mat_len - (1 - k) * Lm
-      // => Lm - L_op = (Lm - S_mat_len) / k  => L_op = Lm - (lldWithLen / k)
       let Lop = null;
       let opAgeStr = '-';
       if (lldWithLen <= 0.05) {
@@ -1534,13 +1876,24 @@
         }
       }
 
+      // HTML Legend (wraps cleanly on mobile)
+      const legItems = [
+        { c: '#0f172a', t: '건측 성장선 (45°)' },
+        { c: '#0d9488', t: '환측 성장선' },
+        { c: '#dc2626', t: `유합술 기울기 (-${Math.round(k * 100)}%)` }
+      ];
+      if (lengthen > 0) legItems.push({ c: '#d97706', t: `연장술 (+${fmt(lengthen)} cm)` });
+      $('moseleyLegend').innerHTML = legItems.map((it) =>
+        `<span class="legend-item"><span class="legend-swatch" style="background:${it.c};"></span>${it.t}</span>`
+      ).join('');
+
       $('moseleySummaryBody').innerHTML = `
         <tr>
-          <td class="num">${fmt(Lm)} cm</td>
-          <td class="num">${fmt(lldNoOp)} cm</td>
-          <td class="num" style="color:${Math.abs(lldWithLen) <= 1.5 ? '#059669' : '#0f172a'};">${fmt(lldWithLen)} cm</td>
-          <td class="num">${Lop !== null && Lop > 0 ? fmt(Lop) + ' cm' : '불가'}</td>
-          <td class="num"><strong>${opAgeStr}</strong></td>
+          <td class="num" data-label="성숙 시 건측 길이 (L_m)">${fmt(Lm)} cm</td>
+          <td class="num" data-label="비수술 시 최종 부동">${fmt(lldNoOp)} cm</td>
+          <td class="num" data-label="연장술 반영 최종 부동" style="color:${Math.abs(lldWithLen) <= 1.5 ? '#059669' : '#0f172a'};">${fmt(lldWithLen)} cm</td>
+          <td class="num" data-label="유합술 시점 건측 (L_op)">${Lop !== null && Lop > 0 ? fmt(Lop) + ' cm' : '불가'}</td>
+          <td class="num" data-label="유합술 예상 연령"><strong>${opAgeStr}</strong></td>
         </tr>
       `;
 
@@ -1549,11 +1902,14 @@
 
     function drawMoseleyCanvas(d) {
       const canvas = $('moseleyChart');
-      if (!canvas.offsetParent) return; // hidden tab
-      const { ctx, w, h } = setupCanvas(canvas, 390);
+      if (!canvas.offsetParent) return;
+      const isNarrow = canvas.parentElement.clientWidth < 480;
+      const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 290 : 370);
       ctx.clearRect(0, 0, w, h);
 
-      const pad = { l: 56, r: 28, t: 30, b: 44 };
+      const pad = isNarrow
+        ? { l: 42, r: 16, t: 24, b: 38 }
+        : { l: 56, r: 28, t: 28, b: 44 };
       const plotW = Math.max(120, w - pad.l - pad.r);
       const plotH = h - pad.t - pad.b;
 
@@ -1566,32 +1922,34 @@
       // Grid
       ctx.strokeStyle = '#e2e8f0';
       ctx.lineWidth = 1;
-      ctx.font = '11px -apple-system, sans-serif';
+      ctx.font = '10.5px -apple-system, sans-serif';
       ctx.fillStyle = '#64748b';
-      const step = (maxVal - minVal) > 45 ? 10 : 5;
+      const step = (maxVal - minVal) > (isNarrow ? 30 : 45) ? 10 : 5;
       for (let v = minVal; v <= maxVal; v += step) {
         const x = xOf(v);
         const y = yOf(v);
         ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + plotW, y); ctx.stroke();
         ctx.textAlign = 'center';
-        ctx.fillText(v, x, pad.t + plotH + 16);
+        ctx.fillText(v, x, pad.t + plotH + 15);
         ctx.textAlign = 'right';
-        ctx.fillText(v, pad.l - 8, y + 4);
+        ctx.fillText(v, pad.l - 6, y + 4);
       }
 
       // Axis labels
       ctx.fillStyle = '#334155';
-      ctx.font = 'bold 11.5px -apple-system, sans-serif';
+      ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('정상 하지 성장 기준축 (cm)', pad.l + plotW / 2, h - 8);
-      ctx.save();
-      ctx.translate(15, pad.t + plotH / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillText('하지 길이 (cm)', 0, 0);
-      ctx.restore();
+      ctx.fillText('정상 하지 성장 기준축 (cm)', pad.l + plotW / 2, h - 6);
+      if (!isNarrow) {
+        ctx.save();
+        ctx.translate(14, pad.t + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('하지 길이 (cm)', 0, 0);
+        ctx.restore();
+      }
 
-      // Maturity vertical line (Lm)
+      // Maturity vertical line
       const xMat = xOf(d.Lm);
       ctx.save();
       ctx.setLineDash([5, 4]);
@@ -1603,11 +1961,11 @@
       ctx.stroke();
       ctx.restore();
       ctx.fillStyle = '#4f46e5';
-      ctx.font = 'bold 11px -apple-system, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`성숙선 (${fmt(d.Lm)})`, Math.min(xMat, pad.l + plotW - 32), pad.t - 10);
+      ctx.font = 'bold 10.5px -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(`성숙선 ${fmt(d.Lm)}`, Math.min(xMat + 10, pad.l + plotW), pad.t - 7);
 
-      // Normal leg 45-degree reference line
+      // Normal leg 45-degree line
       ctx.strokeStyle = '#0f172a';
       ctx.lineWidth = 2.2;
       ctx.beginPath();
@@ -1615,7 +1973,7 @@
       ctx.lineTo(xOf(d.Lm), yOf(d.Lm));
       ctx.stroke();
 
-      // Short leg natural growth line (dashed if lengthened)
+      // Short leg line
       const S_start = d.Scurr - d.shortSlope * (d.Lcurr - minVal);
       ctx.save();
       if (d.lengthen > 0) ctx.setLineDash([4, 4]);
@@ -1627,7 +1985,7 @@
       ctx.stroke();
       ctx.restore();
 
-      // Lengthening Sharp Vertical Rise
+      // Lengthening
       if (d.lengthen > 0) {
         ctx.strokeStyle = '#d97706';
         ctx.lineWidth = 2.8;
@@ -1638,7 +1996,7 @@
         ctx.stroke();
       }
 
-      // Epiphysiodesis slope line from L_op to (Lm, S_mat_len)
+      // Epiphysiodesis line
       if (d.Lop !== null && d.Lop >= minVal && d.Lop < d.Lm) {
         ctx.strokeStyle = '#dc2626';
         ctx.lineWidth = 2.4;
@@ -1647,41 +2005,21 @@
         ctx.lineTo(xOf(d.Lm), yOf(d.S_mat_len));
         ctx.stroke();
 
-        // Point L_op
         ctx.fillStyle = '#dc2626';
         ctx.beginPath();
-        ctx.arc(xOf(d.Lop), yOf(d.Lop), 5.5, 0, Math.PI * 2);
+        ctx.arc(xOf(d.Lop), yOf(d.Lop), 5, 0, Math.PI * 2);
         ctx.fill();
-        ctx.font = 'bold 11px -apple-system, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText(`유합 시점 L_op=${fmt(d.Lop)}`, xOf(d.Lop) - 8, yOf(d.Lop) - 6);
+        ctx.font = 'bold 10.5px -apple-system, sans-serif';
+        ctx.textAlign = xOf(d.Lop) > pad.l + 90 ? 'right' : 'left';
+        const tx = xOf(d.Lop) > pad.l + 90 ? xOf(d.Lop) - 7 : xOf(d.Lop) + 7;
+        ctx.fillText(`L_op=${fmt(d.Lop)}`, tx, yOf(d.Lop) - 7);
       }
 
-      // Current measurement points
+      // Current dots
       ctx.fillStyle = '#0f172a';
       ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Lcurr), 4.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#0d9488';
       ctx.beginPath(); ctx.arc(xOf(d.Lcurr), yOf(d.Scurr), 4.5, 0, Math.PI * 2); ctx.fill();
-
-      // Legend
-      const leg = [
-        { c: '#0f172a', t: '건측 성장선 (45°)' },
-        { c: '#0d9488', t: '환측 성장선' },
-        { c: '#dc2626', t: `유합술 기울기 (-${Math.round(d.k * 100)}%)` }
-      ];
-      if (d.lengthen > 0) leg.push({ c: '#d97706', t: `연장술 (+${fmt(d.lengthen)} cm)` });
-
-      let lx = pad.l + 10;
-      const ly = pad.t + 14;
-      ctx.font = 'bold 11px -apple-system, sans-serif';
-      ctx.textAlign = 'left';
-      leg.forEach((item) => {
-        ctx.fillStyle = item.c;
-        ctx.fillRect(lx, ly - 5, 12, 3);
-        ctx.fillStyle = '#334155';
-        ctx.fillText(item.t, lx + 16, ly);
-        lx += ctx.measureText(item.t).width + 30;
-      });
     }
 
     // =========================================================================
@@ -1693,12 +2031,15 @@
         const diff = Math.max(0, row.norm - row.short);
         return `
           <tr>
-            <td><strong>#${idx + 1}</strong></td>
-            <td><input class="reg-input" type="number" step="0.1" data-idx="${idx}" data-key="age" value="${row.age}" /></td>
-            <td><input class="reg-input" type="number" step="0.1" data-idx="${idx}" data-key="norm" value="${row.norm}" /></td>
-            <td><input class="reg-input" type="number" step="0.1" data-idx="${idx}" data-key="short" value="${row.short}" /></td>
-            <td class="num">${fmt(diff)} cm</td>
-            <td><button class="btn btn-sm btn-danger" data-del="${idx}">삭제</button></td>
+            <td class="card-row-head" style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>#${idx + 1}회차 계측</strong>
+              <span class="num" style="color:#0f766e;" data-diff-head="${idx}">Δ ${fmt(diff)} cm</span>
+            </td>
+            <td data-label="연령 (세)"><input class="reg-input" type="number" inputmode="decimal" step="0.1" data-idx="${idx}" data-key="age" value="${row.age}" /></td>
+            <td data-label="건측 길이 (cm)"><input class="reg-input" type="number" inputmode="decimal" step="0.1" data-idx="${idx}" data-key="norm" value="${row.norm}" /></td>
+            <td data-label="환측 길이 (cm)"><input class="reg-input" type="number" inputmode="decimal" step="0.1" data-idx="${idx}" data-key="short" value="${row.short}" /></td>
+            <td class="num" data-label="하지부동 Δ">${fmt(diff)} cm</td>
+            <td data-label="관리"><button class="btn btn-sm btn-danger" data-del="${idx}">삭제</button></td>
           </tr>
         `;
       }).join('');
@@ -1709,9 +2050,12 @@
           const key = e.target.dataset.key;
           state.regRows[idx][key] = parseFloat(e.target.value) || 0;
           computeRegression();
-          // Update diff cell directly without losing focus
           const row = state.regRows[idx];
-          e.target.closest('tr').children[4].textContent = `${fmt(Math.max(0, row.norm - row.short))} cm`;
+          const diffStr = `${fmt(Math.max(0, row.norm - row.short))} cm`;
+          const tr = e.target.closest('tr');
+          tr.children[4].textContent = diffStr;
+          const headSpan = tr.querySelector(`[data-diff-head="${idx}"]`);
+          if (headSpan) headSpan.textContent = `Δ ${diffStr}`;
         });
       });
 
@@ -1760,25 +2104,25 @@
       const norms = sorted.map(r => r.norm);
       const shorts = sorted.map(r => r.short);
 
-      const regDiff = ols(ages, diffs); // GIR (cm/yr)
-      const regRatio = ols(norms, shorts); // dShort / dNorm
+      const regDiff = ols(ages, diffs);
+      const regRatio = ols(norms, shorts);
       const I = Math.max(0, 1 - regRatio.slope);
 
       const matAge = state.sex === 'M' ? 16.0 : 14.0;
       const predMat = Math.max(0, regDiff.slope * matAge + regDiff.intercept);
 
-      $('regSexTag').textContent = `${state.sex === 'M' ? '남아 16세' : '여아 14세'} 기준`;
+      $('regSexTag').textContent = `${state.sex === 'M' ? '남아 16세' : '여아 14세'}`;
       $('regGirVal').textContent = `${fmt(regDiff.slope, 2)} cm/yr`;
       $('regR2Pill').textContent = `R² = ${fmt(regDiff.r2, 3)}`;
-      $('regEqSub').textContent = `회귀식: Δ = ${fmt(regDiff.slope, 2)} × Age ${regDiff.intercept >= 0 ? '+' : '-'} ${fmt(Math.abs(regDiff.intercept), 2)}`;
+      $('regEqSub').textContent = `Δ = ${fmt(regDiff.slope, 2)} × Age ${regDiff.intercept >= 0 ? '+' : '-'} ${fmt(Math.abs(regDiff.intercept), 2)}`;
       $('regPredVal').textContent = `${fmt(predMat)} cm`;
-      $('regISub').textContent = `회귀 성장 억제비 I = ${fmt(I * 100, 1)}%`;
+      $('regISub').textContent = `성장 억제비 I = ${fmt(I * 100, 1)}%`;
 
       const alertBox = $('regAlertBox');
       if (regDiff.slope < 0) {
-        alertBox.innerHTML = `<div class="alert alert-amber"><strong>음의 기울기 감지 (과성장 또는 자연 교정 패턴):</strong> 골절 후 과성장이나 비전형적 성장 패턴 가능성이 있으므로 선형 외삽 예측에 주의하세요.</div>`;
+        alertBox.innerHTML = `<div class="alert alert-amber"><strong>음의 기울기 감지:</strong> 골절 후 과성장이나 비전형적 성장 패턴 가능성이 있으므로 선형 외삽 예측에 주의하세요.</div>`;
       } else if (sorted.length >= 3 && regDiff.r2 < 0.85) {
-        alertBox.innerHTML = `<div class="alert alert-amber"><strong>낮은 선형성 (R² = ${fmt(regDiff.r2, 2)}):</strong> 계측 오차 또는 비선형 성장(성장 급증기·부분 유합 등) 가능성이 있어 추가 추시가 필요합니다.</div>`;
+        alertBox.innerHTML = `<div class="alert alert-amber"><strong>낮은 선형성 (R² = ${fmt(regDiff.r2, 2)}):</strong> 계측 오차 또는 비선형 성장 가능성이 있어 추가 추시가 필요합니다.</div>`;
       } else {
         alertBox.innerHTML = `<div class="alert alert-green"><strong>선형 성장 적합 (R² = ${fmt(regDiff.r2, 3)}):</strong> 일관된 진행 패턴으로 회귀 기반 예측 신뢰도가 양호합니다.</div>`;
       }
@@ -1789,10 +2133,13 @@
     function drawRegCanvas(sorted, reg, matAge, predMat) {
       const canvas = $('regChart');
       if (!canvas.offsetParent) return;
-      const { ctx, w, h } = setupCanvas(canvas, 270);
+      const isNarrow = canvas.parentElement.clientWidth < 480;
+      const { ctx, w, h } = setupCanvas(canvas, isNarrow ? 225 : 270);
       ctx.clearRect(0, 0, w, h);
 
-      const pad = { l: 52, r: 28, t: 24, b: 40 };
+      const pad = isNarrow
+        ? { l: 42, r: 16, t: 22, b: 34 }
+        : { l: 52, r: 28, t: 24, b: 40 };
       const plotW = Math.max(100, w - pad.l - pad.r);
       const plotH = h - pad.t - pad.b;
 
@@ -1803,25 +2150,23 @@
       const xOf = (a) => pad.l + ((a - minAge) / (maxAge - minAge)) * plotW;
       const yOf = (y) => pad.t + plotH - (y / maxY) * plotH;
 
-      // Grid
       ctx.strokeStyle = '#e2e8f0';
       ctx.lineWidth = 1;
-      ctx.font = '11px -apple-system, sans-serif';
+      ctx.font = '10.5px -apple-system, sans-serif';
       ctx.fillStyle = '#64748b';
       for (let a = minAge; a <= maxAge; a += 2) {
         const x = xOf(a);
         ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, pad.t + plotH); ctx.stroke();
         ctx.textAlign = 'center';
-        ctx.fillText(a + '세', x, pad.t + plotH + 16);
+        ctx.fillText(a + '세', x, pad.t + plotH + 15);
       }
       for (let y = 0; y <= maxY; y += 1) {
         const py = yOf(y);
         ctx.beginPath(); ctx.moveTo(pad.l, py); ctx.lineTo(pad.l + plotW, py); ctx.stroke();
         ctx.textAlign = 'right';
-        ctx.fillText(y + ' cm', pad.l - 7, py + 4);
+        ctx.fillText(y + 'cm', pad.l - 6, py + 4);
       }
 
-      // Regression line to maturity
       ctx.strokeStyle = '#0d9488';
       ctx.lineWidth = 2.2;
       ctx.beginPath();
@@ -1829,41 +2174,58 @@
       ctx.lineTo(xOf(matAge), yOf(predMat));
       ctx.stroke();
 
-      // Data points
       sorted.forEach((r) => {
         const x = xOf(r.age);
         const y = yOf(Math.max(0, r.norm - r.short));
         ctx.fillStyle = '#1e293b';
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.arc(x, y, 4.8, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Maturity predicted dot
       ctx.fillStyle = '#dc2626';
       ctx.beginPath();
       ctx.arc(xOf(matAge), yOf(predMat), 5.5, 0, Math.PI * 2);
       ctx.fill();
       ctx.font = 'bold 11px -apple-system, sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText(`성숙 예측 ${fmt(predMat)} cm`, xOf(matAge) - 6, yOf(predMat) - 8);
+      ctx.fillText(`성숙 ${fmt(predMat)}cm`, xOf(matAge) - 6, yOf(predMat) - 8);
     }
 
     // =========================================================================
-    // 8. Event Listeners & Interactions
+    // 8. Event Listeners & Mobile Jump Interaction
     // =========================================================================
-    // Tabs
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         btn.classList.add('active');
-        $('tab-' + btn.dataset.tab).classList.add('active');
-        if (btn.dataset.tab === 'moseley') renderMoseleyUI();
-        if (btn.dataset.tab === 'regression') computeRegression();
-        if (btn.dataset.tab === 'basic') drawCompChart(state.lastCalc);
+        state.activeTab = btn.dataset.tab;
+        $('tab-' + state.activeTab).classList.add('active');
+        $('mobileStickyBar').classList.toggle('hide-bar', state.activeTab !== 'basic');
+
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        if (state.activeTab === 'moseley') renderMoseleyUI();
+        if (state.activeTab === 'regression') computeRegression();
+        if (state.activeTab === 'basic') drawCompChart(state.lastCalc);
       });
     });
+
+    // Mobile sticky jump button (toggle between Result and Input)
+    let showingResult = false;
+    $('btnMobileJump').addEventListener('click', () => {
+      const target = showingResult ? $('inputSection') : $('resultSection');
+      const offset = 104;
+      const y = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', () => {
+      if (state.activeTab !== 'basic' || window.innerWidth > 768) return;
+      const resTop = $('resultSection').getBoundingClientRect().top;
+      showingResult = resTop < window.innerHeight * 0.45;
+      $('btnMobileJump').textContent = showingResult ? '입력 수정 ↑' : '결과 보기 ↓';
+    }, { passive: true });
 
     // Segmented controls
     $('sexControl').querySelectorAll('.seg-btn').forEach((btn) => {
@@ -1886,22 +2248,18 @@
       });
     });
 
-    // Inputs
     ['chronoAge', 'boneAge', 'femNorm', 'femShort', 'tibNorm', 'tibShort', 'footNorm', 'footShort',
      'prevInterval', 'prevFootDiff', 'prevNorm', 'prevShort', 'targetResidual'].forEach((id) => {
       $(id).addEventListener('input', computeAll);
     });
 
-    // Highlight toggle
     $('toggleHighlight').addEventListener('change', (e) => {
       $('kpiGrid').classList.toggle('highlight-preds', e.target.checked);
     });
 
-    // Moseley controls
     $('moseleySite').addEventListener('change', renderMoseleyUI);
     $('lengthenSlider').addEventListener('input', renderMoseleyUI);
 
-    // Presets
     $('preset1').addEventListener('click', () => {
       state.sex = 'M';
       state.etiology = 'congenital';
@@ -1916,7 +2274,7 @@
       $('footShort').value = '0.0';
       $('targetResidual').value = '0.0';
       computeAll();
-      showToast('예제 1 (12세 남아 선천성) 적용 완료');
+      showToast('예제 1 (12세 남아 선천성) 적용');
     });
 
     $('preset2').addEventListener('click', () => {
@@ -1937,7 +2295,7 @@
       $('prevFootDiff').value = '0.0';
       $('targetResidual').value = '0.0';
       computeAll();
-      showToast('예제 2 (8.5세 여아 후천성 2회) 적용 완료');
+      showToast('예제 2 (8.5세 여아 후천성) 적용');
     });
 
     function syncSegUI() {
@@ -1946,7 +2304,6 @@
       $('prevSection').classList.toggle('hidden', state.etiology !== 'acquired');
     }
 
-    // Reset button (Privacy-safe clear)
     $('btnReset').addEventListener('click', () => {
       state.sex = 'M';
       state.etiology = 'congenital';
@@ -1961,11 +2318,11 @@
       $('footShort').value = '0.0';
       $('targetResidual').value = '0.0';
       $('lengthenSlider').value = '0.0';
+      $('footDetails').open = false;
       computeAll();
       showToast('입력값이 초기화되었습니다.');
     });
 
-    // Regression add row & sync
     $('btnAddRow').addEventListener('click', () => {
       const last = state.regRows[state.regRows.length - 1] || { age: 8, norm: 60, short: 58 };
       state.regRows.push({
@@ -1987,7 +2344,6 @@
       syncSegUI();
       $('chronoAge').value = fmt(last.age);
       $('boneAge').value = '';
-      // Split total norm/short into typical 54.5% femur / 45.5% tibia ratio
       $('femNorm').value = fmt(last.norm * 0.545);
       $('tibNorm').value = fmt(last.norm * 0.455);
       $('femShort').value = fmt(last.short * 0.545);
@@ -1997,10 +2353,9 @@
       $('prevShort').value = fmt(first.short);
       computeAll();
       document.querySelector('.tab-btn[data-tab="basic"]').click();
-      showToast('다회계측 결과가 기본 계산기와 Moseley에 연동되었습니다.');
+      showToast('다회계측 결과가 연동되었습니다.');
     });
 
-    // EMR Copy buttons
     $('btnCopyEmr').addEventListener('click', () => {
       const c = state.lastCalc;
       const plan = choosePrimaryPlan(c);
@@ -2038,14 +2393,12 @@
       showToast(msg);
     }
 
-    // Modal
     $('btnInfo').addEventListener('click', () => $('infoModal').classList.add('open'));
     $('btnCloseModal').addEventListener('click', () => $('infoModal').classList.remove('open'));
     $('infoModal').addEventListener('click', (e) => {
       if (e.target === $('infoModal')) $('infoModal').classList.remove('open');
     });
 
-    // Resize redraw
     window.addEventListener('resize', () => {
       if (state.lastCalc) {
         drawCompChart(state.lastCalc);
@@ -2080,7 +2433,6 @@
       $('btnInstall').style.display = 'none';
     });
 
-    // Init
     computeAll();
     renderRegTable();
   </script>
